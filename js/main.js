@@ -6,6 +6,7 @@ var score = new ScoreKeeper();
 var background;
 var midground;
 var scoreText;
+var healthText;
 var player;
 var cursors;
 var pauseText;
@@ -91,20 +92,13 @@ var mainState ={
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
         player.anchor.set(0.5, 0.0);
+        player.health = 3;
 
         //add sound effects
         laser10 = game.add.audio('laser10');
 
         // controls
         cursors = game.input.keyboard.createCursorKeys();
-
-        // pause functionality
-        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
-        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        pauseKey.onDown.add(this.pauseHandler, this);
-        game.onBlur.add(this.pauseHandler, this);
-        pauseText.visible = false;
-
 
         // add player basic player bullet
         lasers = game.add.group();
@@ -115,7 +109,6 @@ var mainState ={
         lasers.setAll('anchor.y', 1);
         lasers.setAll('checkWorldBounds', true);
         lasers.setAll('outOfBoundsKill', true);
-
 
         // Enemies
 
@@ -149,6 +142,15 @@ var mainState ={
         
         // TODO Add fade in, fade out; cycle through array of quotes
         
+        // pause functionality
+        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
+        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        pauseKey.onDown.add(this.pauseHandler, this);
+        game.onBlur.add(this.pauseHandler, this);
+        pauseText.visible = false;
+
+
+        healthText = game.add.text(1000, 16, 'health: 3, ', { fontSize: '32px', fill: '#F50' });
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
         
     },
@@ -195,6 +197,8 @@ var mainState ={
             //TODO: Increase score
 
         }, null, this);
+
+        healthText.text = 'health: ' + player.health;
 
     },
 
