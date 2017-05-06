@@ -42,7 +42,7 @@ var mainState ={
     game.load.audio('laser7', 'Assets/soundFx/Laser/Laser_06.wav');
     game.load.audio('laser8', 'Assets/soundFx/Laser/Laser_07.wav');
     game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_08.wav');
-    game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_09.wav');
+    game.load.audio('laser10', 'Assets/soundFx/Laser/Laser_09.wav');
 
     game.load.audio('alarmLoop', 'Assets/soundFx/Alarm_Loop_00.wav');
     game.load.audio('alarmLoop1', 'Assets/soundFx/Alarm_Loop_01.wav');
