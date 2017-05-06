@@ -1,4 +1,5 @@
-var game = new Phaser.Game(1200, 650, Phaser.AUTO, '');
+var game = new Phaser.Game(1200,620, Phaser.AUTO, '');
+
 var score = new ScoreKeeper();
 
 // game objects
@@ -7,77 +8,77 @@ var scoreText;
 var player;
 var cursors;
 var pauseText;
+
 var laser;
 var laserSpeed = 300;
 var fireRate = 0;
+var coPilot;
 
-var mainState = {
+var mainState ={
 
-    preload: function () {
-        game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
-        game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
-        game.load.image('playerShip', 'Assets/PlayerShip/playerShip.png');
+    preload: function(){
+
+    game.load.image('skyNebula1', 'Assets/Background/skyNebula_256LH.png');
+
+    game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
+    game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
+    game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
+    game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
+    game.load.image('playerBlt','Assets/Effects/BuletPlr.png');
+    game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
+    game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
 
 
-        game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
-        game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
-        game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
-        game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
-        game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
-        game.load.image('playerBltBasic', 'Assets/Effects/BuletPlr.png');
-        game.load.image('enemyDrone', 'Assests/Enemies/EnemyShipDrone.png');
-        game.load.image('enemyHunter', 'Assets/Enemies/EnemyShipHunter.png');
+    game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
+    game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
+    game.load.audio('laser3', 'Assets/soundFx/Laser/Laser_02.wav');
+    game.load.audio('laser4', 'Assets/soundFx/Laser/Laser_03.wav');
+    game.load.audio('laser5', 'Assets/soundFx/Laser/Laser_04.wav');
+    game.load.audio('laser6', 'Assets/soundFx/Laser/Laser_05.wav');
+    game.load.audio('laser7', 'Assets/soundFx/Laser/Laser_06.wav');
+    game.load.audio('laser8', 'Assets/soundFx/Laser/Laser_07.wav');
+    game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_08.wav');
+    game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_09.wav');
 
-        game.load.audio('laser1', 'SounFX/Laser/Laser_00.wav');
-        game.load.audio('laser2', 'SounFX/Laser/Laser_01.wav');
-        game.load.audio('laser3', 'SounFX/Laser/Laser_02.wav');
-        game.load.audio('laser4', 'SounFX/Laser/Laser_03.wav');
-        game.load.audio('laser5', 'SounFX/Laser/Laser_04.wav');
-        game.load.audio('laser6', 'SounFX/Laser/Laser_05.wav');
-        game.load.audio('laser7', 'SounFX/Laser/Laser_06.wav');
-        game.load.audio('laser8', 'SounFX/Laser/Laser_07.wav');
-        game.load.audio('laser9', 'SounFX/Laser/Laser_08.wav');
-        game.load.audio('laser10', 'SounFX/Laser/Laser_09.wav');
+    game.load.audio('alarmLoop', 'Assets/soundFx/Alarm_Loop_00.wav');
+    game.load.audio('alarmLoop1', 'Assets/soundFx/Alarm_Loop_01.wav');
 
-        game.load.audio('alarmLoop', 'SounFX/Laser/Alarm_Loop_00.wav');
-        game.load.audio('alarmLoop1', 'SounFX/Laser/Alarm_Loop_01.wav');
+    game.load.audio('alienLanguage', 'Assets/soundFx/Alien_Language_00.wav');
+    game.load.audio('ambience1', 'Assets/soundFx/Ambience_AlienHive_00.wav');
+    game.load.audio('ambience2', 'Assets/soundFx/Ambience_AlienPlanet_00.wav');
+    game.load.audio('ambience3', 'Assets/soundFx/Ambience_BlackHole_00.wav');
+    game.load.audio('ambience4', 'Assets/soundFx/Ambience_Space_00.wav');
+    game.load.audio('ambienceAchievement', 'Assets/soundFx/Jingle_Achievement_00.wav');
+    game.load.audio('jingleLose', 'Assets/soundFx/Jingle_Lose_00.wav');
+    game.load.audio('jingleWin', 'Assets/soundFx/Jingle_Win_00.wav');
+    game.load.audio('jingleWi1', 'Assets/soundFx/Jingle_Win_01.wav');
 
-        game.load.audio('alienLanguage', 'SounFX/Laser/Alien_Language_00.wav');
-        game.load.audio('ambience1', 'SounFX/Laser/Ambience_AlienHive_00.wav');
-        game.load.audio('ambience2', 'SounFX/Laser/Ambience_AlienPlanet_00.wav');
-        game.load.audio('ambience3', 'SounFX/Laser/Ambience_BlackHole_00.wav');
-        game.load.audio('ambience4', 'SounFX/Laser/Ambience_Space_00.wav');
-        game.load.audio('ambienceAchievement', 'SounFX/Laser/Ambience_Achievement_00.wav');
-        game.load.audio('jingleLose', 'SounFX/Laser/Jingle_Lose_00.wav');
-        game.load.audio('jingleWin', 'SounFX/Laser/Jingle_Win_00.wav');
-        game.load.audio('jingleWi1', 'SounFX/Laser/Jingle_Win_01.wav');
+    game.load.audio('menuSelect', 'Assets/soundFx/Menu_Select_00.wav');
+    game.load.audio('menuSelect1', 'Assets/soundFx/Menu_Select_01.wav');
 
-        game.load.audio('menuSelect', 'SounFX/Laser/Menu_Select_00.wav');
-        game.load.audio('menuSelect1', 'SounFX/Laser/Menu_Select_01.wav');
+    game.load.audio('robotActivated', 'Assets/soundFx/Robot_Activated_00.wav');
+    game.load.audio('robotTalk', 'Assets/soundFx/Robot_Talk_01.wav');
+    game.load.audio('robotTalk2', 'Assets/soundFx/Robot_Talk_02.wav');
 
-        game.load.audio('robotActivated', 'SounFX/Laser/Robot_Activated_00.wav');
-        game.load.audio('robotTalk', 'SounFX/Laser/Robot_Talk_01.wav');
-        game.load.audio('robotTalk2', 'SounFX/Laser/Robot_Talk_02.wav');
+    game.load.audio('engineLarge', 'Assets/soundFx/SpaceShip_Engine_Large_Loop_00.wav');
+    game.load.audio('engineMedium', 'Assets/soundFx/SpaceShip_Engine_Medium_Loop_00.wav');
+    game.load.audio('engineSmall', 'Assets/soundFx/SpaceShip_Engine_Small_Loop_00.wav');
 
-        game.load.audio('engineLarge', 'SounFX/Laser/SpaceShip_Engine_Large_Loop_00.wav');
-        game.load.audio('engineMedium', 'SounFX/Laser/SpaceShip_Engine_Medium_Loop_00.wav');
-        game.load.audio('engineSmall', 'SounFX/Laser/SpaceShip_Engine_Small_Loop_00.wav');
-
-        game.load.audio('warpDrive', 'SounFX/Laser/WarpDrive_00.wav');
-        game.load.audio('warpDrive1', 'SounFX/Laser/WarpDrive_01.wav');
-        game.load.audio('warpDrive2', 'SounFX/Laser/WarpDrive_02.wav');
-    },
-
-    create: function () {
+    game.load.audio('warpDrive', 'Assets/soundFx/WarpDrive_00.wav');
+    game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
+    game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
+},
+    
+    create: function(){
         // all items needed at game creation
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font: "Bauhaus 93", fill: '#000' });
-
+        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font:'Bauhaus 93', fill: '#FFF' });
+        
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
-        player.scale.setTo(0.2, 0.2);
+        player.scale.setTo(0.3, 0.3);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
         player.anchor.set(0.5, 0.0);
@@ -95,6 +96,7 @@ var mainState = {
         game.onBlur.add(this.pauseHandler, this);
         pauseText.visible = false;
 
+
         // add player basic player bullet
         lasers = game.add.group();
         lasers.enableBody = true;
@@ -104,6 +106,13 @@ var mainState = {
         lasers.setAll('anchor.y', 1);
         lasers.setAll('checkWorldBounds', true);
         lasers.setAll('outOfBoundsKill', true);
+
+        // co-pilot feature
+        coPilot = game.add.image(50,50,'coPilot');
+        coPilot.scale.setTo(0.1,0.1);
+        coPilotText = game.add.text(190,50,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        // TODO Add fade in, fade out; cycle through array of quotes
+        
     },
 
 
