@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1024, 1024, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1000, 900, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var score = new ScoreKeeper();
 function preload() {
 
