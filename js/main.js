@@ -19,7 +19,7 @@ var mainState ={
 
     preload: function(){
 
-    game.load.image('skyNebula1', 'Assets/Background/SkyNebula_256LH.png');
+    game.load.image('skyNebula1', 'Assets/Background/SkyNebula_LH.png');
     game.load.image('starBlu', 'Assets/Background/StarBlu.png');
     game.load.image('coPilot', 'Assets/CoPilot/creature.png');
 
@@ -77,8 +77,8 @@ var mainState ={
         // all items needed at game creation
         
         // Add background
-        background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
-        midground = game.add.tileSprite(0, 0, game.width, game.height, 'starBlu');
+        background = game.add.tileSprite(0, 0, game.width, game.height, 'starBlu');
+        midground = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
