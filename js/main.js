@@ -12,18 +12,9 @@ var coPilot;
 var mainState ={
 
     preload: function(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-  
-    game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
-=======
-=======
-    game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
-    game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
-    game.load.image('playerGreenShip', 'Assets/PlayerShip/ship5.png');
->>>>>>> Add copilot
+
     game.load.image('skyNebula1', 'Assets/Background/skyNebula_256LH.png');
->>>>>>> Start on co-pilot feature
+
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
@@ -31,8 +22,7 @@ var mainState ={
     game.load.image('playerBlt','Assets/Effects/BuletPlr.png');
     game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
     game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
     game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
@@ -73,52 +63,6 @@ var mainState ={
     game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
     game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
 },
-=======
-    game.load.image('coPilot', 'Assets/CoPilot/creature.png')
-    },
->>>>>>> Start on co-pilot feature
-=======
-
-    game.load.audio('laser1', 'SounFX/Laser/Laser_00.wav');
-    game.load.audio('laser2', 'SounFX/Laser/Laser_01.wav');
-    game.load.audio('laser3', 'SounFX/Laser/Laser_02.wav');
-    game.load.audio('laser4', 'SounFX/Laser/Laser_03.wav');
-    game.load.audio('laser5', 'SounFX/Laser/Laser_04.wav');
-    game.load.audio('laser6', 'SounFX/Laser/Laser_05.wav');
-    game.load.audio('laser7', 'SounFX/Laser/Laser_06.wav');
-    game.load.audio('laser8', 'SounFX/Laser/Laser_07.wav');
-    game.load.audio('laser9', 'SounFX/Laser/Laser_08.wav');
-    game.load.audio('laser9', 'SounFX/Laser/Laser_09.wav');
-
-    game.load.audio('alarmLoop', 'SounFX/Laser/Alarm_Loop_00.wav');
-    game.load.audio('alarmLoop1', 'SounFX/Laser/Alarm_Loop_01.wav');
-
-    game.load.audio('alienLanguage', 'SounFX/Laser/Alien_Language_00.wav');
-    game.load.audio('ambience1', 'SounFX/Laser/Ambience_AlienHive_00.wav');
-    game.load.audio('ambience2', 'SounFX/Laser/Ambience_AlienPlanet_00.wav');
-    game.load.audio('ambience3', 'SounFX/Laser/Ambience_BlackHole_00.wav');
-    game.load.audio('ambience4', 'SounFX/Laser/Ambience_Space_00.wav');
-    game.load.audio('ambienceAchievement', 'SounFX/Laser/Ambience_Achievement_00.wav');
-    game.load.audio('jingleLose', 'SounFX/Laser/Jingle_Lose_00.wav');
-    game.load.audio('jingleWin', 'SounFX/Laser/Jingle_Win_00.wav');
-    game.load.audio('jingleWi1', 'SounFX/Laser/Jingle_Win_01.wav');
-
-    game.load.audio('menuSelect', 'SounFX/Laser/Menu_Select_00.wav');
-    game.load.audio('menuSelect1', 'SounFX/Laser/Menu_Select_01.wav');
-
-    game.load.audio('robotActivated', 'SounFX/Laser/Robot_Activated_00.wav');
-    game.load.audio('robotTalk', 'SounFX/Laser/Robot_Talk_01.wav');
-    game.load.audio('robotTalk2', 'SounFX/Laser/Robot_Talk_02.wav');
-
-    game.load.audio('engineLarge', 'SounFX/Laser/SpaceShip_Engine_Large_Loop_00.wav');
-    game.load.audio('engineMedium', 'SounFX/Laser/SpaceShip_Engine_Medium_Loop_00.wav');
-    game.load.audio('engineSmall', 'SounFX/Laser/SpaceShip_Engine_Small_Loop_00.wav');
-
-    game.load.audio('warpDrive', 'SounFX/Laser/WarpDrive_00.wav');
-    game.load.audio('warpDrive1', 'SounFX/Laser/WarpDrive_01.wav');
-    game.load.audio('warpDrive2', 'SounFX/Laser/WarpDrive_02.wav');
-},
->>>>>>> Add copilot
     
     create: function(){
         // all items needed at game creation
