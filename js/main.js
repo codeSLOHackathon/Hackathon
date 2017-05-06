@@ -134,9 +134,13 @@ var mainState ={
         }
 
         // co-pilot feature
+        //container = game.add.sprite(70, 580, 'container');
         coPilot = game.add.image(50,50,'coPilot');
         coPilot.scale.setTo(0.1,0.1);
-        coPilotText = game.add.text(190,50,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        coPilotText = game.add.text(coPilot.x + coPilot.width, coPilot.y,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        coPilotText.anchor.set(0);
+        coPilotText
+        
         // TODO Add fade in, fade out; cycle through array of quotes
         
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
