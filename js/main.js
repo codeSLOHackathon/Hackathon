@@ -2,6 +2,8 @@ var game = new Phaser.Game(1000,850, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 var background;
 var scoreText;
+var player;
+var cursors;
 
 
 var mainState ={
@@ -21,6 +23,16 @@ var mainState ={
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
+
+        // Add player ship
+        player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
+        player.scale.setTo(0.3, 0.3);
+        game.physics.arcade.enable(player);
+        player.body.collideWorldBounds = true;
+
+        // controls
+        cursors = game.input.keyboard.createCursorKeys();
+
     },
      
      
@@ -29,6 +41,23 @@ var mainState ={
         
         // Scroll background
         background.tilePosition.y += 0.5;
+
+        if (cursors.left.isDown)
+        {
+        //  Move to the left
+            player.body.velocity.x = -150;
+        } else if (cursors.right.isDown){
+        //  Move to the right
+            player.body.velocity.x = 150;
+        } else if (cursors.up.isDown){
+            player.body.velocity.y = -150;
+        } else if (cursors.down.isDown){
+            player.body.velocity.y = 150;
+        } else {
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+        }
+    
     }
     
 };
