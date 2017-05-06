@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000,850, Phaser.AUTO, '');
+var game = new Phaser.Game(1000,600, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 // game objects
@@ -35,7 +35,7 @@ var mainState ={
         cursors = game.input.keyboard.createCursorKeys();
 
         // pause functionality
-        pauseText = game.add.text(200,400, 'Paused - Press Enter to Resume', {fontSize: '32px', fill: '#DDD'});
+        pauseText = game.add.text(230,150, 'Paused - Press Enter to Resume', {fontSize: '32px', fill: '#5D5'});
         var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         pauseKey.onDown.add(this.pauseHandler, this);
         game.onBlur.add(this.pauseHandler, this);
@@ -49,6 +49,9 @@ var mainState ={
         // Scroll background
         background.tilePosition.y += 0.5;
 
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+
         if (cursors.left.isDown)
         {
         //  Move to the left
@@ -56,13 +59,11 @@ var mainState ={
         } else if (cursors.right.isDown){
         //  Move to the right
             player.body.velocity.x = 150;
-        } else if (cursors.up.isDown){
+        } 
+        if (cursors.up.isDown){
             player.body.velocity.y = -150;
         } else if (cursors.down.isDown){
             player.body.velocity.y = 150;
-        } else {
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
         }
     
     },
