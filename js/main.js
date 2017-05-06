@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000,850, Phaser.AUTO, '');
+var game = new Phaser.Game(1000,600, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 // game objects
