@@ -2,7 +2,7 @@ var game = new Phaser.Game(900, 1000, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 function preload() {
-
+    game.load.image('Nebula1', 'assets/SkyNebula_256LH.png');
   
 }
 console.log(score.getScore());
