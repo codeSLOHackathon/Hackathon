@@ -16,6 +16,8 @@ var fireRate = 0;
 var coPilot;
 var weapon = 0;
 
+var drones;
+
 var mainState ={
 
     preload: function(){
@@ -112,6 +114,25 @@ var mainState ={
         lasers.setAll('checkWorldBounds', true);
         lasers.setAll('outOfBoundsKill', true);
 
+
+        // Enemies
+
+        drones = game.add.group();
+        drones.enableBody = true;
+
+        for (var i = 0; i < 12; i++)
+        {
+            var drone = drones.create((game.stage.width - 150) * Math.random(), -i * 400, 'enemyDrone');
+            drone.scale.setTo(0.6, 0.6);
+            drone.body.velocity.y = 150;
+            drone.checkWorldBounds = true;
+            drone.events.onOutOfBounds.add((d) => {
+                if(d.body.y > game.height){
+                    d.kill(); 
+                }
+            }, this);
+        }
+
         // co-pilot feature
         coPilot = game.add.image(50,50,'coPilot');
         coPilot.scale.setTo(0.1,0.1);
@@ -136,10 +157,10 @@ var mainState ={
         // player movement controls
         if (cursors.left.isDown) {
             //  Move to the left
-            player.body.velocity.x = -150;
+            player.body.velocity.x = -300;
         } else if (cursors.right.isDown) {
             //  Move to the right
-            player.body.velocity.x = 150;
+            player.body.velocity.x = 300;
         }
         if (cursors.up.isDown) {
             //  Move up   
@@ -156,6 +177,14 @@ var mainState ={
         if (fireButton.isDown) {
             this.fire(player.x);
         }
+
+        // check if bullets hit enemies
+        game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
+            laser.kill();
+            drone.kill();    
+            //TODO: Increase score
+
+        }, null, this);
 
     },
 
