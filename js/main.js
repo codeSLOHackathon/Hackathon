@@ -136,13 +136,13 @@ var mainState ={
         //container = game.add.sprite(70, 580, 'container');
         coPilot = game.add.image(200, 200, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
-        coPilot.alpha = 0.8;
-        coPilotFrame.alpha = 0.8;
         coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, coPilotQuote, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
         coPilot.anchor.set(0.5);
         coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
-        
+        coPilot.alpha = 0.8;
+        coPilotFrame.alpha = 0.8;
+        coPilotText.alpha = 0.8;
         
         // TODO Add fade in, fade out; cycle through array of quotes
         
