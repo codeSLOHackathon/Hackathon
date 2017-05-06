@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1200,650, Phaser.AUTO, '');
+var game = new Phaser.Game(1000,600, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 // game objects
@@ -7,12 +7,17 @@ var scoreText;
 var player;
 var cursors;
 var pauseText;
+var coPilot;
 
 var mainState ={
 
     preload: function(){
+<<<<<<< HEAD
   
     game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
+=======
+    game.load.image('skyNebula1', 'Assets/Background/skyNebula_256LH.png');
+>>>>>>> Start on co-pilot feature
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
@@ -20,6 +25,7 @@ var mainState ={
     game.load.image('playerBlt','Assets/Effects/BuletPlr.png');
     game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
     game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
+<<<<<<< HEAD
 
     game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
     game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
@@ -60,6 +66,10 @@ var mainState ={
     game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
     game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
 },
+=======
+    game.load.image('coPilot', 'Assets/CoPilot/creature.png')
+    },
+>>>>>>> Start on co-pilot feature
     
     create: function(){
         // all items needed at game creation
@@ -70,7 +80,7 @@ var mainState ={
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
-        player.scale.setTo(0.2, 0.2);
+        player.scale.setTo(0.3, 0.3);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
 
@@ -83,6 +93,13 @@ var mainState ={
         pauseKey.onDown.add(this.pauseHandler, this);
         game.onBlur.add(this.pauseHandler, this);
         pauseText.visible = false;
+
+        // co-pilot feature
+        coPilot = game.add.image(50,50,'coPilot');
+        coPilot.scale.setTo(0.1,0.1);
+        coPilotText = game.add.text(190,50,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        // TODO Add fade in, fade out; cycle through array of quotes
+        
     },
      
      
