@@ -13,6 +13,7 @@ function preload() {
 var mainState ={
    
     create: function(){
+        // all items needed at game creation
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
@@ -20,7 +21,8 @@ var mainState ={
      
      
     update: function(){
-
+        // all items needed during game loop
+        
         // Scroll background
         background.tilePosition.y += 0.5;
     }
