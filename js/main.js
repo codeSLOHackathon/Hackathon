@@ -145,7 +145,7 @@ var mainState ={
         coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
         coPilotGroup.alpha = 0.8;
-        coPilotGroup.visible = false;
+        coPilotGroup.visible = true;
         
         // TODO Add fade in, fade out; cycle through array of quotes
         
