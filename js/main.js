@@ -14,6 +14,7 @@ var laser;
 var laserSpeed = 300;
 var fireRate = 0;
 var coPilot;
+var weapon = 0;
 
 var mainState ={
 
@@ -124,19 +125,7 @@ var mainState ={
 
     update: function () {
         // all items needed during game loop
-        function fire(x) {
-            if (game.time.now > fireRate) {
-
-                laser = lasers.getFirstExists(false);
-
-                if (laser) {
-                    laser.reset(x, player.y + 10);
-                    laser.body.velocity.y = laserSpeed * -1;
-                    laser10.play();
-                    fireRate = game.time.now + 200;
-                }
-            }
-        }
+        
         // Scroll background
         background.tilePosition.y += 0.25;
         midground.tilePosition.y += 0.5;
@@ -165,7 +154,7 @@ var mainState ={
 
         // enable shooting
         if (fireButton.isDown) {
-            fire(player.x);
+            this.fire(player.x);
         }
 
     },
@@ -179,7 +168,27 @@ var mainState ={
             game.paused = true;
             pauseText.visible = true;
         }
-    }
+    },
+
+    fire: function(x) {
+        switch(weapon){
+            case 0:
+                if (game.time.now > fireRate) {
+
+                laser = lasers.getFirstExists(false);
+
+                if (laser) {
+                    laser.reset(x, player.y + 10);
+                    laser.body.velocity.y = laserSpeed * -1;
+                    laser10.play();
+                    fireRate = game.time.now + 200;
+                }
+            }
+            break;
+        }
+
+            
+        }
 
 };
 
