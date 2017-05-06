@@ -23,7 +23,7 @@ var mainState ={
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
-        player.scale.setTo(0.5, 0.5);
+        player.scale.setTo(0.3, 0.3);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
 
