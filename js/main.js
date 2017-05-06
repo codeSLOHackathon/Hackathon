@@ -1,4 +1,5 @@
 var game = new Phaser.Game(1200,620, Phaser.AUTO, '');
+
 var score = new ScoreKeeper();
 
 // game objects
@@ -7,6 +8,10 @@ var scoreText;
 var player;
 var cursors;
 var pauseText;
+
+var laser;
+var laserSpeed = 300;
+var fireRate = 0;
 var coPilot;
 
 var mainState ={
@@ -66,7 +71,7 @@ var mainState ={
     
     create: function(){
         // all items needed at game creation
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
+        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font:'Bauhaus 93', fill: '#FFF' });
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
@@ -76,16 +81,31 @@ var mainState ={
         player.scale.setTo(0.3, 0.3);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
+        player.anchor.set(0.5, 0.0);
+
+        //add sound effects
+        laser10 = game.add.audio('laser10');
 
         // controls
         cursors = game.input.keyboard.createCursorKeys();
 
         // pause functionality
-        pauseText = game.add.text(230,150, 'Paused - Press Enter to Resume', {fontSize: '32px', fill: '#5D5'});
+        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
         var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         pauseKey.onDown.add(this.pauseHandler, this);
         game.onBlur.add(this.pauseHandler, this);
         pauseText.visible = false;
+
+
+        // add player basic player bullet
+        lasers = game.add.group();
+        lasers.enableBody = true;
+        lasers.physicsBodyType = Phaser.Physics.ARCADE;
+        lasers.createMultiple(50, 'playerBltBasic');
+        lasers.setAll('anchor.x', 0.5);
+        lasers.setAll('anchor.y', 1);
+        lasers.setAll('checkWorldBounds', true);
+        lasers.setAll('outOfBoundsKill', true);
 
         // co-pilot feature
         coPilot = game.add.image(50,50,'coPilot');
@@ -94,37 +114,58 @@ var mainState ={
         // TODO Add fade in, fade out; cycle through array of quotes
         
     },
-     
-     
-    update: function(){
+
+
+    update: function () {
         // all items needed during game loop
-        
+        function fire(x) {
+            if (game.time.now > fireRate) {
+
+                laser = lasers.getFirstExists(false);
+
+                if (laser) {
+                    laser.reset(x, player.y + 10);
+                    laser.body.velocity.y = laserSpeed * -1;
+                    laser10.play();
+                    fireRate = game.time.now + 200;
+                }
+            }
+        }
         // Scroll background
         background.tilePosition.y += 0.5;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
 
-        if (cursors.left.isDown){
-        //  Move to the left
+        // player movement controls
+        if (cursors.left.isDown) {
+            //  Move to the left
             player.body.velocity.x = -150;
-        } else if (cursors.right.isDown){
-        //  Move to the right
+        } else if (cursors.right.isDown) {
+            //  Move to the right
             player.body.velocity.x = 150;
-        } 
-        if (cursors.up.isDown){
-        //  Move up   
+        }
+        if (cursors.up.isDown) {
+            //  Move up   
             player.body.velocity.y = -150;
-        } else if (cursors.down.isDown){
-        //  Move down
+        } else if (cursors.down.isDown) {
+            //  Move down
             player.body.velocity.y = 150;
         }
-    
+
+        // add fire button
+        fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+        // enable shooting
+        if (fireButton.isDown) {
+            fire(player.x);
+        }
+
     },
 
-    pauseHandler: function() {
-        console.log(game.paused)
-        if(game.paused) {
+    pauseHandler: function () {
+        console.log(game.paused);
+        if (game.paused) {
             game.paused = false;
             pauseText.visible = false;
         } else {
@@ -132,9 +173,9 @@ var mainState ={
             pauseText.visible = true;
         }
     }
-    
+
 };
 
 // game state
-game.state.add('main',mainState);
+game.state.add('main', mainState);
 game.state.start('main');
