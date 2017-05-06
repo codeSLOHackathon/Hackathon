@@ -74,6 +74,10 @@ var mainState ={
     game.load.audio('warpDrive', 'Assets/soundFx/WarpDrive_00.wav');
     game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
     game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
+
+   // game.load.script('Orbitron','https://fonts.googleapis.com/css?family=Orbitron');
+
+
 },
     
     create: function(){
@@ -144,7 +148,7 @@ var mainState ={
         // TODO Add fade in, fade out; cycle through array of quotes
         
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
-        
+    
     },
 
 
