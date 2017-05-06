@@ -73,7 +73,6 @@ var mainState ={
     
     create: function(){
         // all items needed at game creation
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font:'Bauhaus 93', fill: '#FFF' });
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
@@ -114,6 +113,8 @@ var mainState ={
         coPilot.scale.setTo(0.1,0.1);
         coPilotText = game.add.text(190,50,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
         // TODO Add fade in, fade out; cycle through array of quotes
+        
+        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font:'Bauhaus 93', fill: '#FFF' });
         
     },
 
