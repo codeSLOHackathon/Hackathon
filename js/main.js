@@ -1,10 +1,12 @@
 var game = new Phaser.Game(1000,850, Phaser.AUTO, '');
 var score = new ScoreKeeper();
+
+// game objects
 var background;
 var scoreText;
 var player;
 var cursors;
-
+var pauseText;
 
 var mainState ={
 
@@ -32,6 +34,12 @@ var mainState ={
         // controls
         cursors = game.input.keyboard.createCursorKeys();
 
+        // pause functionality
+        pauseText = game.add.text(200,400, 'Paused - Press Enter to Resume', {fontSize: '32px', fill: '#DDD'});
+        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        pauseKey.onDown.add(this.pauseHandler, this);
+        game.onBlur.add(this.pauseHandler, this);
+        pauseText.visible = false;
     },
      
      
@@ -57,6 +65,17 @@ var mainState ={
         player.body.velocity.y = 0;
         }
     
+    },
+
+    pauseHandler: function() {
+        console.log(game.paused)
+        if(game.paused) {
+            game.paused = false;
+            pauseText.visible = false;
+        } else {
+            game.paused = true;
+            pauseText.visible = true;
+        }
     }
     
 };
