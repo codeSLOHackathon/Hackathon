@@ -12,11 +12,9 @@ var mainState ={
 
     preload: function(){
     game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
-<<<<<<< HEAD
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
-=======
     game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/ship5.png');
@@ -24,9 +22,6 @@ var mainState ={
     game.load.image('playerBlt','Assets/Effects/BuletPlr.png');
     game.load.image('enemyDrone','Assests/Enemies/EnemyShipDrone.png');
     game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
-    },
->>>>>>> added effects folder
-
     },
     
     create: function(){
