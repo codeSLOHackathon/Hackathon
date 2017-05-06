@@ -14,6 +14,9 @@ var laser;
 var laserSpeed = 300;
 var fireRate = 0;
 var coPilot;
+var coPilotFrame;
+var coPilotText;
+var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
 
 var drones;
@@ -25,8 +28,7 @@ var mainState ={
     game.load.image('skyNebula1', 'Assets/Background/SkyNebula_LH.png');
     game.load.image('starBlu', 'Assets/Background/StarBlu.png');
     game.load.image('coPilot', 'Assets/CoPilot/creature.png');
-
-
+    game.load.image('coPilotFrame', 'Assets/CoPilot/creatureFrame.png');
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
@@ -135,11 +137,15 @@ var mainState ={
 
         // co-pilot feature
         //container = game.add.sprite(70, 580, 'container');
-        coPilot = game.add.image(50,50,'coPilot');
-        coPilot.scale.setTo(0.1,0.1);
-        coPilotText = game.add.text(coPilot.x + coPilot.width, coPilot.y,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        coPilot = game.add.image(200, 200, 'coPilot');
+        coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
+        coPilot.alpha = 0.8;
+        coPilotFrame.alpha = 0.8;
+        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, coPilotQuote, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        coPilot.anchor.set(0.5);
+        coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
-        coPilotText
+        
         
         // TODO Add fade in, fade out; cycle through array of quotes
         
