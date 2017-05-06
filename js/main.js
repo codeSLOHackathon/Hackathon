@@ -1,6 +1,7 @@
 var game = new Phaser.Game(1000,850, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 var background;
+var scoreText;
 var player;
 var cursors;
 
@@ -12,10 +13,12 @@ var mainState ={
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
-    },
 
+    },
+    
     create: function(){
         // all items needed at game creation
+        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font: "Bauhaus 93",fill: '#000' });
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
