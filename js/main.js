@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000,600, Phaser.AUTO, '');
+var game = new Phaser.Game(1200,650, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 // game objects
@@ -33,7 +33,7 @@ var mainState ={
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
-        player.scale.setTo(0.3, 0.3);
+        player.scale.setTo(0.2, 0.2);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
 
@@ -58,8 +58,7 @@ var mainState ={
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
 
-        if (cursors.left.isDown)
-        {
+        if (cursors.left.isDown){
         //  Move to the left
             player.body.velocity.x = -150;
         } else if (cursors.right.isDown){
@@ -67,8 +66,10 @@ var mainState ={
             player.body.velocity.x = 150;
         } 
         if (cursors.up.isDown){
+        //  Move up   
             player.body.velocity.y = -150;
         } else if (cursors.down.isDown){
+        //  Move down
             player.body.velocity.y = 150;
         }
     
