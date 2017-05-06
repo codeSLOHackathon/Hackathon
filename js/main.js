@@ -16,6 +16,7 @@ var fireRate = 0;
 var coPilot;
 var coPilotFrame;
 var coPilotText;
+var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
 
 var drones;
@@ -140,7 +141,7 @@ var mainState ={
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
         coPilot.alpha = 0.8;
         coPilotFrame.alpha = 0.8;
-        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, 'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, coPilotQuote, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
         coPilot.anchor.set(0.5);
         coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
