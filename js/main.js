@@ -4,6 +4,7 @@ var score = new ScoreKeeper();
 
 // game objects
 var background;
+var midground;
 var scoreText;
 var player;
 var cursors;
@@ -19,6 +20,7 @@ var mainState ={
     preload: function(){
 
     game.load.image('skyNebula1', 'Assets/Background/SkyNebula_256LH.png');
+    game.load.image('starBlu', 'Assets/Background/StarBlu.png');
     game.load.image('coPilot', 'Assets/CoPilot/creature.png');
 
 
@@ -76,6 +78,7 @@ var mainState ={
         
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
+        midground = game.add.tileSprite(0, 0, game.width, game.height, 'starBlu');
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
@@ -135,7 +138,8 @@ var mainState ={
             }
         }
         // Scroll background
-        background.tilePosition.y += 0.5;
+        background.tilePosition.y += 0.25;
+        midground.tilePosition.y += 0.5;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
