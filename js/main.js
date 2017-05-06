@@ -114,7 +114,7 @@ var mainState ={
         coPilotText = game.add.text(190,50,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
         // TODO Add fade in, fade out; cycle through array of quotes
         
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', font:'Bauhaus 93', fill: '#FFF' });
+        scoreText = game.add.text(800, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
         
     },
 
