@@ -76,8 +76,8 @@ var mainState ={
     game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
 
    // game.load.script('Orbitron','https://fonts.googleapis.com/css?family=Orbitron');
-
-
+    game.load.spritesheet('explosion', 'Assets/Effects/explosion-01.png', 64, 64, 14);
+    
 },
     
     create: function(){
