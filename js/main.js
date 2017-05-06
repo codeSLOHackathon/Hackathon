@@ -1,9 +1,11 @@
 var game = new Phaser.Game(900, 1000, Phaser.AUTO, '');
+var score = new ScoreKeeper();
 
 function preload() {
-    
-}
 
+  
+}
+console.log(score.getScore());
 var mainState ={
     create: function(){
         // all items needed at game creation
@@ -19,4 +21,3 @@ var mainState ={
 // game state
 game.state.add('main',mainState);
 game.state.start('main');
-
