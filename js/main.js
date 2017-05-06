@@ -16,7 +16,7 @@ var mainState = {
     preload: function () {
         game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
         game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
-        game.load.image('playerGreenShip', 'Assets/PlayerShip/ship5.png');
+        game.load.image('playerShip', 'Assets/PlayerShip/playerShip.png');
 
 
         game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
@@ -37,7 +37,7 @@ var mainState = {
         game.load.audio('laser7', 'SounFX/Laser/Laser_06.wav');
         game.load.audio('laser8', 'SounFX/Laser/Laser_07.wav');
         game.load.audio('laser9', 'SounFX/Laser/Laser_08.wav');
-        game.load.audio('laser9', 'SounFX/Laser/Laser_09.wav');
+        game.load.audio('laser10', 'SounFX/Laser/Laser_09.wav');
 
         game.load.audio('alarmLoop', 'SounFX/Laser/Alarm_Loop_00.wav');
         game.load.audio('alarmLoop1', 'SounFX/Laser/Alarm_Loop_01.wav');
@@ -82,6 +82,9 @@ var mainState = {
         player.body.collideWorldBounds = true;
         player.anchor.set(0.5, 0.0);
 
+        //add sound effects
+        laser10 = game.add.audio('laser10');
+
         // controls
         cursors = game.input.keyboard.createCursorKeys();
 
@@ -114,6 +117,7 @@ var mainState = {
                 if (laser) {
                     laser.reset(x, player.y + 10);
                     laser.body.velocity.y = laserSpeed * -1;
+                    laser10.play();
                     fireRate = game.time.now + 200;
                 }
             }
