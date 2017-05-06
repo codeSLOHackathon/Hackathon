@@ -64,7 +64,8 @@ var mainState ={
         } else if (cursors.right.isDown){
         //  Move to the right
             player.body.velocity.x = 150;
-        } else if (cursors.up.isDown){
+        } 
+        if (cursors.up.isDown){
         //  Move up   
             player.body.velocity.y = -150;
         } else if (cursors.down.isDown){
