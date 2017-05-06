@@ -7,6 +7,10 @@ function ScoreKeeper(){
 		score += val;
 	};
 
+	this.displayScore = function(){
+		scoreText.text = 'Score: '+score;
+	};
+
 //this.reset = function(){
 //score = 0;
 //};

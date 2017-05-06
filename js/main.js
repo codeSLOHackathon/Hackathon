@@ -215,6 +215,9 @@ var mainState ={
                     laser.body.velocity.y = laserSpeed * -1;
                     laser10.play();
                     fireRate = game.time.now + 200;
+                    // testing for ScoreKeeper method
+                   // score.increaseScore(1);
+                   // score.displayScore();
                 }
             }
             break;
