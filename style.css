@@ -1,0 +1,13 @@
+html,body{
+    background-color:black;
+    height:100%;
+    width:100%;
+    padding:0;
+}
+
+canvas{
+    margin:0 auto;
+    position:relative;
+    top:25px;
+    border:1px solid azure;
+}
