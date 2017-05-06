@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000,600, Phaser.AUTO, '');
+var game = new Phaser.Game(1200,650, Phaser.AUTO, '');
 var score = new ScoreKeeper();
 
 // game objects
@@ -11,10 +11,19 @@ var pauseText;
 var mainState ={
 
     preload: function(){
+          game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
+    game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
+    game.load.image('playerGreenShip', 'Assets/PlayerShip/ship5.png');
+
+      
     game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
     game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
     game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
     game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
+    game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
+    game.load.image('playerBlt','Assets/Effects/BuletPlr.png');
+    game.load.image('enemyDrone','Assests/Enemies/EnemyShipDrone.png');
+    game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
 
     game.load.audio('laser1', 'SounFX/Laser/Laser_00.wav');
     game.load.audio('laser2', 'SounFX/Laser/Laser_01.wav');
@@ -65,7 +74,7 @@ var mainState ={
 
         // Add player ship
         player = game.add.sprite(0, game.height - 150, 'playerGreenShip');
-        player.scale.setTo(0.3, 0.3);
+        player.scale.setTo(0.2, 0.2);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
 
@@ -90,8 +99,7 @@ var mainState ={
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
 
-        if (cursors.left.isDown)
-        {
+        if (cursors.left.isDown){
         //  Move to the left
             player.body.velocity.x = -150;
         } else if (cursors.right.isDown){
@@ -99,8 +107,10 @@ var mainState ={
             player.body.velocity.x = 150;
         } 
         if (cursors.up.isDown){
+        //  Move up   
             player.body.velocity.y = -150;
         } else if (cursors.down.isDown){
+        //  Move down
             player.body.velocity.y = 150;
         }
     
