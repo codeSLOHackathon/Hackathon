@@ -7,11 +7,10 @@ var mainState ={
 
     preload: function(){
     game.load.image('skyNebula1', 'Assets/Background/skyNebula1.png');
-    game.load.image('skyNebula2', 'Assets/Background/skyNebula2.png');
-    game.load.image('enemyShip', 'Assets/Enemies/largeShip1.png');
-    game.load.image('enemyShip', 'Assets/Enemies/ship2.png');
-    game.load.image('playerShip', 'Assets/PlayerShip/ship5.png');
-     game.load.image('playerShip', 'Assets/PlayerShip/spikedShipBlue.png');
+    game.load.image('enemyShip1', 'Assets/Enemies/largeShip1.png');
+    game.load.image('enemyShip2', 'Assets/Enemies/ship2.png');
+    game.load.image('playerGreenShip', 'Assets/PlayerShip/ship5.png');
+     game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
     },
 
     create: function(){
