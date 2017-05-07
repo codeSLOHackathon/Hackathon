@@ -79,7 +79,7 @@ var mainState ={
         coPilotGroup = game.add.group();
         coPilot = game.add.image(200, 200, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
-        
+        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, "Test", {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
         coPilotGroup.add(coPilot);
         coPilotGroup.add(coPilotFrame);
         coPilotGroup.add(coPilotText);
@@ -154,7 +154,7 @@ var mainState ={
         // check if bullets hit enemies
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
-            this.coPilotMessage("Help");
+            this.coPilotMessage("Nice shot!");
             laser.kill();
             drone.kill();    
             //TODO: Increase score
@@ -174,10 +174,10 @@ var mainState ={
     },
 
     coPilotMessage: function(message){
-        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, message, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
-        coPilotGroup.visible = True;
-        game.time.events.add(Phaser.Timer.SECOND * 3, function(){
-            coPilotGroup.visible = False}
+        coPilotText.setText(message)
+        coPilotGroup.visible = true;
+        game.time.events.add(Phaser.Timer.SECOND * 5, function(){
+            coPilotGroup.visible = false}
             , this);
     },
 
