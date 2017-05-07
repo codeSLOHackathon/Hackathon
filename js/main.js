@@ -17,7 +17,6 @@ var coPilotGroup;
 var coPilot;
 var coPilotFrame;
 var coPilotText;
-var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
 
 var explosions;
@@ -27,6 +26,7 @@ var droneBullets;
 var droneBulletSpeed = 600;
 
 var drones;
+var asteroidA;
 
 var mainState = {
 
@@ -96,10 +96,20 @@ var mainState = {
             drone.fireRate = 0;
         }
 
+        // asteroids
+        asteroidA = game.add.sprite(100, -100, 'asteroidA');
+        asteroidA.scale.setTo(0.3, 0.3);
+        game.physics.arcade.enable(asteroidA);
+        asteroidA.body.collideWorldBounds = true;
+        asteroidA.anchor.set(0.5, 0.0);
+        asteroidA.health = 3;
+        asteroidA.body.velocity.y = 100;
+
+        
         // co-pilot feature
 
         coPilotGroup = game.add.group();
-        coPilot = game.add.image(200, 200, 'coPilot');
+        coPilot = game.add.image(200, 250, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
         coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, "Test", {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
         coPilotGroup.add(coPilot);
@@ -178,7 +188,7 @@ var mainState = {
             this.fire(player.x);
         }
 
-        // check if bullets hit enemies
+        // check if lasers hit enemies
 
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
@@ -191,6 +201,17 @@ var mainState = {
             //TODO: Increase score
 
         }, null, this);
+
+        // check if bullets hit player 
+
+        game.physics.arcade.overlap(droneBullets, player, (droneBullet, player)=>{
+            this.enemyExplosion(player);
+            player.kill();
+            droneBullet.kill();
+            this.coPilotMessage("GAME OVER. Press Enter to play again");
+            var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
+        }, null, this)
 
         // check if player collides with enemy
         game.physics.arcade.overlap(player, drones, (player, drone)=>{
