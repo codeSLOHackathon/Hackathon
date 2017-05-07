@@ -68,7 +68,7 @@ var mainState = {
         droneBullets = game.add.group();
         droneBullets.enableBody = true;
         droneBullets.physicsBodyType = Phaser.Physics.ARCADE;
-        droneBullets.createMultiple(50, 'enemyBltDrone');
+        droneBullets.createMultiple(200, 'enemyBltDrone');
         droneBullets.setAll('anchor.x', 0.5);
         droneBullets.setAll('anchor.y', 1);
         droneBullets.setAll('checkWorldBounds', true);
