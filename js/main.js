@@ -6,6 +6,7 @@ var score = new ScoreKeeper();
 var background;
 var midground;
 var scoreText;
+var healthText;
 var player;
 var cursors;
 var pauseText;
@@ -13,8 +14,14 @@ var pauseText;
 var lasers;
 var laserSpeed = 300;
 var fireRate = 0;
+var coPilotGroup;
 var coPilot;
+var coPilotFrame;
+var coPilotText;
+var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
+
+var explosions;
 
 // variables for drone shooting
 var droneBullets;
@@ -23,62 +30,6 @@ var droneBulletSpeed = 600;
 var drones;
 
 var mainState = {
-
-    preload: function () {
-
-        game.load.image('skyNebula1', 'Assets/Background/SkyNebula_LH.png');
-        game.load.image('starBlu', 'Assets/Background/StarBlu.png');
-        game.load.image('coPilot', 'Assets/CoPilot/creature.png');
-
-
-        game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
-        game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
-        game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
-        game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
-        game.load.image('playerBltBasic', 'Assets/Effects/BuletPlr.png');
-        game.load.image('enemyDrone', 'Assets/Enemies/EnemyShipDrone.png');
-        game.load.image('enemyHunter', 'Assets/Enemies/EnemyShipHunter.png');
-        game.load.image('enemyBltDrone', 'Assets/Effects/laser-red.png');
-
-        game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
-        game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
-        game.load.audio('laser3', 'Assets/soundFx/Laser/Laser_02.wav');
-        game.load.audio('laser4', 'Assets/soundFx/Laser/Laser_03.wav');
-        game.load.audio('laser5', 'Assets/soundFx/Laser/Laser_04.wav');
-        game.load.audio('laser6', 'Assets/soundFx/Laser/Laser_05.wav');
-        game.load.audio('laser7', 'Assets/soundFx/Laser/Laser_06.wav');
-        game.load.audio('laser8', 'Assets/soundFx/Laser/Laser_07.wav');
-        game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_08.wav');
-        game.load.audio('laser10', 'Assets/soundFx/Laser/Laser_09.wav');
-
-        game.load.audio('alarmLoop', 'Assets/soundFx/Alarm_Loop_00.wav');
-        game.load.audio('alarmLoop1', 'Assets/soundFx/Alarm_Loop_01.wav');
-
-        game.load.audio('alienLanguage', 'Assets/soundFx/Alien_Language_00.wav');
-        game.load.audio('ambience1', 'Assets/soundFx/Ambience_AlienHive_00.wav');
-        game.load.audio('ambience2', 'Assets/soundFx/Ambience_AlienPlanet_00.wav');
-        game.load.audio('ambience3', 'Assets/soundFx/Ambience_BlackHole_00.wav');
-        game.load.audio('ambience4', 'Assets/soundFx/Ambience_Space_00.wav');
-        game.load.audio('ambienceAchievement', 'Assets/soundFx/Jingle_Achievement_00.wav');
-        game.load.audio('jingleLose', 'Assets/soundFx/Jingle_Lose_00.wav');
-        game.load.audio('jingleWin', 'Assets/soundFx/Jingle_Win_00.wav');
-        game.load.audio('jingleWi1', 'Assets/soundFx/Jingle_Win_01.wav');
-
-        game.load.audio('menuSelect', 'Assets/soundFx/Menu_Select_00.wav');
-        game.load.audio('menuSelect1', 'Assets/soundFx/Menu_Select_01.wav');
-
-        game.load.audio('robotActivated', 'Assets/soundFx/Robot_Activated_00.wav');
-        game.load.audio('robotTalk', 'Assets/soundFx/Robot_Talk_01.wav');
-        game.load.audio('robotTalk2', 'Assets/soundFx/Robot_Talk_02.wav');
-
-        game.load.audio('engineLarge', 'Assets/soundFx/SpaceShip_Engine_Large_Loop_00.wav');
-        game.load.audio('engineMedium', 'Assets/soundFx/SpaceShip_Engine_Medium_Loop_00.wav');
-        game.load.audio('engineSmall', 'Assets/soundFx/SpaceShip_Engine_Small_Loop_00.wav');
-
-        game.load.audio('warpDrive', 'Assets/soundFx/WarpDrive_00.wav');
-        game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
-        game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
-    },
 
     create: function () {
         // all items needed at game creation
@@ -93,20 +44,14 @@ var mainState = {
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
         player.anchor.set(0.5, 0.0);
+        player.health = 3;
 
         //add sound effects
         laser10 = game.add.audio('laser10');
+        explode1 = game.add.audio('explode1');
 
         // controls
         cursors = game.input.keyboard.createCursorKeys();
-
-        // pause functionality
-        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
-        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        pauseKey.onDown.add(this.pauseHandler, this);
-        game.onBlur.add(this.pauseHandler, this);
-        pauseText.visible = false;
-
 
         // add player basic player bullet
         lasers = game.add.group();
@@ -152,16 +97,45 @@ var mainState = {
         }
 
         // co-pilot feature
-        //container = game.add.sprite(70, 580, 'container');
-        coPilot = game.add.image(50, 50, 'coPilot');
-        coPilot.scale.setTo(0.1, 0.1);
-        coPilotText = game.add.text(coPilot.x + coPilot.width, coPilot.y, 'Nice work', { fontSize: '18px', fill: '#dbd2d2' });
+
+        coPilotGroup = game.add.group();
+        coPilot = game.add.image(200, 200, 'coPilot');
+        coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
+        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, "Test", {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        coPilotGroup.add(coPilot);
+        coPilotGroup.add(coPilotFrame);
+        coPilotGroup.add(coPilotText);
+        coPilot.anchor.set(0.5);
+        coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
+        coPilotGroup.alpha = 0.8;
+        coPilotGroup.visible = false;
 
+        
         // TODO Add fade in, fade out; cycle through array of quotes
+        
+        // pause functionality
+        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
+        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        pauseKey.onDown.add(this.pauseHandler, this);
+        game.onBlur.add(this.pauseHandler, this);
+        pauseText.visible = false;
 
+
+        healthText = game.add.text(1000, 16, 'health: 3, ', { fontSize: '32px', fill: '#F50' });
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
 
+        //  An explosion pool
+        explosions = game.add.group();
+        explosions.enableBody = true;
+        explosions.physicsBodyType = Phaser.Physics.ARCADE;
+        explosions.createMultiple(30, 'explosion');
+        explosions.setAll('anchor.x', 0.5);
+        explosions.setAll('anchor.y', 0.5);
+        explosions.forEach(function(explosion) {
+        explosion.animations.add('explosion');
+        });
+    
     },
 
 
@@ -207,13 +181,44 @@ var mainState = {
         }
 
         // check if bullets hit enemies
-        game.physics.arcade.overlap(lasers, drones, (laser, drone) => {
+
+        game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
+            this.enemyExplosion(drone);
+            this.coPilotMessage("Nice shot!");
             laser.kill();
             drone.kill();
             //TODO: Increase score
 
         }, null, this);
 
+        // check if player collides with enemy
+        game.physics.arcade.overlap(player, drones, (player, drone)=>{
+            this.enemyExplosion(player);
+            player.kill();
+            drone.kill();
+            game.time.events.add(500, function(){
+                game.state.start('lose');
+            }, this);
+        }, null, this)
+
+        healthText.text = 'health: ' + player.health;
+
+    },
+
+    enemyExplosion: function(enemy){
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+        explosion.alpha = 0.7;
+        explosion.play('explosion', 30, false, true);
+        explode1.play();
+    },
+
+    coPilotMessage: function(message){
+        coPilotText.setText(message)
+        coPilotGroup.visible = true;
+        game.time.events.add(Phaser.Timer.SECOND * 5, function(){
+            coPilotGroup.visible = false}
+            , this);
     },
 
     pauseHandler: function () {
@@ -247,7 +252,6 @@ var mainState = {
                 break;
         }
 
-
     },
 
     droneFire: function (x, y) {
@@ -261,5 +265,8 @@ var mainState = {
 };
 
 // game state
+game.state.add('load', loadState);
 game.state.add('main', mainState);
-game.state.start('main');
+game.state.add('win', winState);
+game.state.add('lose', loseState);
+game.state.start('load');
