@@ -123,6 +123,7 @@ var mainState = {
         game.onBlur.add(this.pauseHandler, this);
 
         scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+        score.clearScore();
 
         //  An explosion pool
         explosions = game.add.group();
@@ -238,9 +239,11 @@ var mainState = {
     win: function() {
         if(player.alive) {
             if(score.getScore() > 0){
-                this.coPilotMessage("You Won!!! Congratulations! Press ENTER to play again");
+                coPilotText.setText("You Won!!! Congratulations! Press ENTER to play again");
+                coPilotGroup.visible = true;
             } else {
-                this.coPilotMessage("You let them all get away? That's terrible. Press ENTER to try again.");
+                coPilotText.setText("You let them all get away? That's terrible. Press ENTER to try again.");
+                coPilotGroup.visible = true;
             }
             var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
             enterKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
@@ -277,7 +280,7 @@ var mainState = {
     coPilotMessage: function (message) {
         coPilotText.setText(message)
         coPilotGroup.visible = true;
-        game.time.events.add(Phaser.Timer.SECOND * 5, function () {
+        game.time.events.add(Phaser.Timer.SECOND * 6, function () {
             coPilotGroup.visible = false
         }
             , this);

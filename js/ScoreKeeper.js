@@ -6,6 +6,9 @@ function ScoreKeeper(){
 	this.increaseScore = function(val){
 		score += val;
 	};
+	this.clearScore = function(){
+		score = 0;
+	}
 
 	this.displayScore = function(){
 		scoreText.text = 'Score: '+score;
