@@ -11,7 +11,7 @@ var loadState = {
         game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
         game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
         game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
-        game.load.image('playerBltBasic','Assets/Effects/BuletPlr.png');
+        game.load.image('playerBltBasic','Assets/Effects/laserPurple.png');
         game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
         game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
         game.load.image('enemyBltDrone', 'Assets/Effects/laser-red.png');
