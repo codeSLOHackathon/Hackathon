@@ -42,6 +42,7 @@ var mainState ={
 
         //add sound effects
         laser10 = game.add.audio('laser10');
+        explode1 = game.add.audio('explode1');
 
         // controls
         cursors = game.input.keyboard.createCursorKeys();
@@ -108,7 +109,7 @@ var mainState ={
         explosions.setAll('anchor.x', 0.5);
         explosions.setAll('anchor.y', 0.5);
         explosions.forEach(function(explosion) {
-            explosion.animations.add('explosion');
+        explosion.animations.add('explosion');
         });
     
     },
@@ -166,6 +167,7 @@ var mainState ={
         explosion.reset(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
         explosion.alpha = 0.7;
         explosion.play('explosion', 30, false, true);
+        explode1.play();
     },
 
     pauseHandler: function () {
