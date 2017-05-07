@@ -1,0 +1,13 @@
+{
+    "leveltime": 15,
+    "enemies": [
+        {"time": 5, "type": "drone", "position": 400},
+        {"time": 7, "type": "drone", "position": 200},
+        {"time": 7.5, "type": "drone", "position": 600}
+    ],
+
+    "messages": [
+        {"time": 0.5, "text": "Enemy drones detected! Watch out!"},
+        {"time": 11, "text": "Nice work, but it's not over yet."}
+    ]
+}
