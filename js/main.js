@@ -81,6 +81,7 @@ var mainState = {
         drones.physicsBodyType = Phaser.Physics.ARCADE;
         drones.setAll('anchor.x', 0.5);
         drones.setAll('anchor.y', 0.5);
+        drones.setAll('outOfBoundsKill', true);
         //drones.setAll('fireRate',0);
 
         // for (var i = 0; i < 12; i++) {
@@ -97,13 +98,13 @@ var mainState = {
         //     drone.fireRate = 0;
         // }
 
-        
+
         // co-pilot feature
 
         coPilotGroup = game.add.group();
         coPilot = game.add.image(200, 250, 'coPilot');
-        coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
-        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, "Test", {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        coPilotFrame = game.add.image(coPilot.x, coPilot.y, 'coPilotFrame');
+        coPilotText = game.add.text(coPilot.x + coPilot.width / 2 + 50, coPilot.y - coPilot.height / 2, "Test", { fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2' });
         coPilotGroup.add(coPilot);
         coPilotGroup.add(coPilotFrame);
         coPilotGroup.add(coPilotText);
@@ -113,14 +114,14 @@ var mainState = {
         coPilotGroup.alpha = 0.8;
         coPilotGroup.visible = false;
 
-        
+
         // TODO Add fade in, fade out; cycle through array of quotes
-        
+
         // pause functionality
         var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         pauseKey.onDown.add(this.pauseHandler, this);
         game.onBlur.add(this.pauseHandler, this);
-      
+
         scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
         //  An explosion pool
@@ -130,6 +131,7 @@ var mainState = {
         explosions.createMultiple(30, 'explosion');
         explosions.setAll('anchor.x', 0.5);
         explosions.setAll('anchor.y', 0.5);
+
         explosions.forEach(function(explosion) {
             explosion.animations.add('explosion');
         });
@@ -137,6 +139,7 @@ var mainState = {
         // load the level
         this.loadLevel(game.cache.getJSON('levelData'));
     
+
     },
 
 
@@ -144,7 +147,7 @@ var mainState = {
         // all items needed during game loop
         // drones shoot on timer
         drones.children.forEach(function (drone) {
-            //console.log(drone.fireRate);
+
             if (drone.body) {
                 if (game.time.now > drone.fireRate) {
                     window.mainState.droneFire(drone.body.x, drone.body.y);
@@ -180,12 +183,13 @@ var mainState = {
 
         // enable shooting
         if (fireButton.isDown) {
-            this.fire(player.x);
+                this.fire(player.x);
+            
         }
 
         // check if lasers hit enemies
 
-        game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
+        game.physics.arcade.overlap(lasers, drones, (laser, drone) => {
             this.enemyExplosion(drone);
             laser.kill();
             drone.kill();
@@ -198,24 +202,24 @@ var mainState = {
 
         // check if bullets hit player 
 
-        game.physics.arcade.overlap(droneBullets, player, (droneBullet, player)=>{
+        game.physics.arcade.overlap(droneBullets, player, (droneBullet, player) => {
             this.enemyExplosion(player);
             player.kill();
             droneBullet.kill();
             this.coPilotMessage("GAME OVER. Press Enter to play again");
             var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-            escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
+            escapeKey.onDown.addOnce(() => { game.state.start('lose') }, this);
         }, null, this)
 
         // check if player collides with enemy
-        game.physics.arcade.overlap(player, drones, (player, drone)=>{
+        game.physics.arcade.overlap(player, drones, (player, drone) => {
             this.enemyExplosion(player);
             player.kill();
             drone.kill();
 
             this.coPilotMessage("GAME OVER. Press Enter to play again");
             var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-            escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
+            escapeKey.onDown.addOnce(() => { game.state.start('lose') }, this);
         }, null, this)
 
 
@@ -248,7 +252,7 @@ var mainState = {
         drone.fireRate = 0;
     },
 
-    enemyExplosion: function(enemy){
+    enemyExplosion: function (enemy) {
         var explosion = explosions.getFirstExists(false);
         explosion.reset(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
         explosion.alpha = 0.7;
@@ -256,11 +260,12 @@ var mainState = {
         explode1.play();
     },
 
-    coPilotMessage: function(message){
+    coPilotMessage: function (message) {
         coPilotText.setText(message)
         coPilotGroup.visible = true;
-        game.time.events.add(Phaser.Timer.SECOND * 5, function(){
-            coPilotGroup.visible = false}
+        game.time.events.add(Phaser.Timer.SECOND * 5, function () {
+            coPilotGroup.visible = false
+        }
             , this);
     },
 
