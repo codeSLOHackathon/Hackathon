@@ -26,6 +26,7 @@ var droneBullets;
 var droneBulletSpeed = 600;
 
 var drones;
+var asteroidA;
 
 var mainState = {
 
@@ -95,6 +96,16 @@ var mainState = {
             drone.fireRate = 0;
         }
 
+        // asteroids
+        asteroidA = game.add.sprite(100, -100, 'asteroidA');
+        asteroidA.scale.setTo(0.3, 0.3);
+        game.physics.arcade.enable(asteroidA);
+        asteroidA.body.collideWorldBounds = true;
+        asteroidA.anchor.set(0.5, 0.0);
+        asteroidA.health = 3;
+        asteroidA.body.velocity.y = 100;
+
+        
         // co-pilot feature
 
         coPilotGroup = game.add.group();
