@@ -17,7 +17,6 @@ var coPilotGroup;
 var coPilot;
 var coPilotFrame;
 var coPilotText;
-var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
 
 var explosions;
@@ -110,6 +109,7 @@ var mainState = {
         coPilotText.anchor.set(0);
         coPilotGroup.alpha = 0.8;
         coPilotGroup.visible = false;
+        coPilotGroup.scale.setTo(0.5,0.5);
 
         
         // TODO Add fade in, fade out; cycle through array of quotes
