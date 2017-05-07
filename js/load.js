@@ -14,6 +14,7 @@ var loadState = {
         game.load.image('playerBltBasic','Assets/Effects/BuletPlr.png');
         game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
         game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
+        game.load.image('enemyBltDrone', 'Assets/Effects/laser-red.png');
 
 
         game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
