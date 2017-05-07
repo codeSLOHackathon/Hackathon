@@ -161,6 +161,16 @@ var mainState ={
 
         }, null, this);
 
+        // check if player collides with enemy
+        game.physics.arcade.overlap(player, drones, (player, drone)=>{
+            this.enemyExplosion(player);
+            player.kill();
+            drone.kill();
+            game.time.events.add(500, function(){
+                game.state.start('lose');
+            }, this);
+        }, null, this)
+
         healthText.text = 'health: ' + player.health;
 
     },
@@ -220,4 +230,6 @@ var mainState ={
 // game state
 game.state.add('load', loadState);
 game.state.add('main', mainState);
+game.state.add('win', winState);
+game.state.add('lose', loseState);
 game.state.start('load');
