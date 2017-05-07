@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1200,620, Phaser.AUTO, '');
+var game = new Phaser.Game(1200, 620, Phaser.AUTO, '');
 
 var score = new ScoreKeeper();
 
@@ -10,75 +10,79 @@ var player;
 var cursors;
 var pauseText;
 
-var laser;
+var lasers;
 var laserSpeed = 300;
 var fireRate = 0;
 var coPilot;
 var weapon = 0;
 
+// variables for drone shooting
+var droneBullets;
+var droneBulletSpeed = 600;
+
 var drones;
 
-var mainState ={
+var mainState = {
 
-    preload: function(){
+    preload: function () {
 
-    game.load.image('skyNebula1', 'Assets/Background/SkyNebula_LH.png');
-    game.load.image('starBlu', 'Assets/Background/StarBlu.png');
-    game.load.image('coPilot', 'Assets/CoPilot/creature.png');
-
-
-    game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
-    game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
-    game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
-    game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
-    game.load.image('playerBltBasic','Assets/Effects/BuletPlr.png');
-    game.load.image('enemyDrone','Assets/Enemies/EnemyShipDrone.png');
-    game.load.image('enemyHunter','Assets/Enemies/EnemyShipHunter.png');
+        game.load.image('skyNebula1', 'Assets/Background/SkyNebula_LH.png');
+        game.load.image('starBlu', 'Assets/Background/StarBlu.png');
+        game.load.image('coPilot', 'Assets/CoPilot/creature.png');
 
 
-    game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
-    game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
-    game.load.audio('laser3', 'Assets/soundFx/Laser/Laser_02.wav');
-    game.load.audio('laser4', 'Assets/soundFx/Laser/Laser_03.wav');
-    game.load.audio('laser5', 'Assets/soundFx/Laser/Laser_04.wav');
-    game.load.audio('laser6', 'Assets/soundFx/Laser/Laser_05.wav');
-    game.load.audio('laser7', 'Assets/soundFx/Laser/Laser_06.wav');
-    game.load.audio('laser8', 'Assets/soundFx/Laser/Laser_07.wav');
-    game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_08.wav');
-    game.load.audio('laser10', 'Assets/soundFx/Laser/Laser_09.wav');
+        game.load.image('enemyShip1', 'Assets/Enemies/shipEnemy1.png');
+        game.load.image('enemyShip2', 'Assets/Enemies/shipEnemy2.png');
+        game.load.image('playerGreenShip', 'Assets/PlayerShip/playerShip.png');
+        game.load.image('playerBlueShip', 'Assets/PlayerShip/spikedShipBlue.png');
+        game.load.image('playerBltBasic', 'Assets/Effects/BuletPlr.png');
+        game.load.image('enemyDrone', 'Assets/Enemies/EnemyShipDrone.png');
+        game.load.image('enemyHunter', 'Assets/Enemies/EnemyShipHunter.png');
+        game.load.image('enemyBltDrone', 'Assets/Effects/laser-red.png');
 
-    game.load.audio('alarmLoop', 'Assets/soundFx/Alarm_Loop_00.wav');
-    game.load.audio('alarmLoop1', 'Assets/soundFx/Alarm_Loop_01.wav');
+        game.load.audio('laser1', 'Assets/soundFx/Laser/Laser_00.wav');
+        game.load.audio('laser2', 'Assets/soundFx/Laser/Laser_01.wav');
+        game.load.audio('laser3', 'Assets/soundFx/Laser/Laser_02.wav');
+        game.load.audio('laser4', 'Assets/soundFx/Laser/Laser_03.wav');
+        game.load.audio('laser5', 'Assets/soundFx/Laser/Laser_04.wav');
+        game.load.audio('laser6', 'Assets/soundFx/Laser/Laser_05.wav');
+        game.load.audio('laser7', 'Assets/soundFx/Laser/Laser_06.wav');
+        game.load.audio('laser8', 'Assets/soundFx/Laser/Laser_07.wav');
+        game.load.audio('laser9', 'Assets/soundFx/Laser/Laser_08.wav');
+        game.load.audio('laser10', 'Assets/soundFx/Laser/Laser_09.wav');
 
-    game.load.audio('alienLanguage', 'Assets/soundFx/Alien_Language_00.wav');
-    game.load.audio('ambience1', 'Assets/soundFx/Ambience_AlienHive_00.wav');
-    game.load.audio('ambience2', 'Assets/soundFx/Ambience_AlienPlanet_00.wav');
-    game.load.audio('ambience3', 'Assets/soundFx/Ambience_BlackHole_00.wav');
-    game.load.audio('ambience4', 'Assets/soundFx/Ambience_Space_00.wav');
-    game.load.audio('ambienceAchievement', 'Assets/soundFx/Jingle_Achievement_00.wav');
-    game.load.audio('jingleLose', 'Assets/soundFx/Jingle_Lose_00.wav');
-    game.load.audio('jingleWin', 'Assets/soundFx/Jingle_Win_00.wav');
-    game.load.audio('jingleWi1', 'Assets/soundFx/Jingle_Win_01.wav');
+        game.load.audio('alarmLoop', 'Assets/soundFx/Alarm_Loop_00.wav');
+        game.load.audio('alarmLoop1', 'Assets/soundFx/Alarm_Loop_01.wav');
 
-    game.load.audio('menuSelect', 'Assets/soundFx/Menu_Select_00.wav');
-    game.load.audio('menuSelect1', 'Assets/soundFx/Menu_Select_01.wav');
+        game.load.audio('alienLanguage', 'Assets/soundFx/Alien_Language_00.wav');
+        game.load.audio('ambience1', 'Assets/soundFx/Ambience_AlienHive_00.wav');
+        game.load.audio('ambience2', 'Assets/soundFx/Ambience_AlienPlanet_00.wav');
+        game.load.audio('ambience3', 'Assets/soundFx/Ambience_BlackHole_00.wav');
+        game.load.audio('ambience4', 'Assets/soundFx/Ambience_Space_00.wav');
+        game.load.audio('ambienceAchievement', 'Assets/soundFx/Jingle_Achievement_00.wav');
+        game.load.audio('jingleLose', 'Assets/soundFx/Jingle_Lose_00.wav');
+        game.load.audio('jingleWin', 'Assets/soundFx/Jingle_Win_00.wav');
+        game.load.audio('jingleWi1', 'Assets/soundFx/Jingle_Win_01.wav');
 
-    game.load.audio('robotActivated', 'Assets/soundFx/Robot_Activated_00.wav');
-    game.load.audio('robotTalk', 'Assets/soundFx/Robot_Talk_01.wav');
-    game.load.audio('robotTalk2', 'Assets/soundFx/Robot_Talk_02.wav');
+        game.load.audio('menuSelect', 'Assets/soundFx/Menu_Select_00.wav');
+        game.load.audio('menuSelect1', 'Assets/soundFx/Menu_Select_01.wav');
 
-    game.load.audio('engineLarge', 'Assets/soundFx/SpaceShip_Engine_Large_Loop_00.wav');
-    game.load.audio('engineMedium', 'Assets/soundFx/SpaceShip_Engine_Medium_Loop_00.wav');
-    game.load.audio('engineSmall', 'Assets/soundFx/SpaceShip_Engine_Small_Loop_00.wav');
+        game.load.audio('robotActivated', 'Assets/soundFx/Robot_Activated_00.wav');
+        game.load.audio('robotTalk', 'Assets/soundFx/Robot_Talk_01.wav');
+        game.load.audio('robotTalk2', 'Assets/soundFx/Robot_Talk_02.wav');
 
-    game.load.audio('warpDrive', 'Assets/soundFx/WarpDrive_00.wav');
-    game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
-    game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
-},
-    
-    create: function(){
+        game.load.audio('engineLarge', 'Assets/soundFx/SpaceShip_Engine_Large_Loop_00.wav');
+        game.load.audio('engineMedium', 'Assets/soundFx/SpaceShip_Engine_Medium_Loop_00.wav');
+        game.load.audio('engineSmall', 'Assets/soundFx/SpaceShip_Engine_Small_Loop_00.wav');
+
+        game.load.audio('warpDrive', 'Assets/soundFx/WarpDrive_00.wav');
+        game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
+        game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
+    },
+
+    create: function () {
         // all items needed at game creation
-        
+
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'starBlu');
         midground = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
@@ -114,43 +118,63 @@ var mainState ={
         lasers.setAll('checkWorldBounds', true);
         lasers.setAll('outOfBoundsKill', true);
 
+        // add drone bullet
+        droneBullets = game.add.group();
+        droneBullets.enableBody = true;
+        droneBullets.physicsBodyType = Phaser.Physics.ARCADE;
+        droneBullets.createMultiple(50, 'enemyBltDrone');
+        droneBullets.setAll('anchor.x', 0.5);
+        droneBullets.setAll('anchor.y', 1);
+        droneBullets.setAll('checkWorldBounds', true);
+        droneBullets.setAll('outOfBoundsKill', true);
 
         // Enemies
 
         drones = game.add.group();
         drones.enableBody = true;
+        drones.physicsBodyType = Phaser.Physics.ARCADE;
+        drones.setAll('anchor.x', 0.5);
+        drones.setAll('anchor.y', 0.5);
+        //drones.setAll('fireRate',0);
 
-        for (var i = 0; i < 12; i++)
-        {
+        for (var i = 0; i < 12; i++) {
+            var that = this;
             var drone = drones.create((game.stage.width - 150) * Math.random(), -i * 400, 'enemyDrone');
             drone.scale.setTo(0.6, 0.6);
             drone.body.velocity.y = 150;
             drone.checkWorldBounds = true;
             drone.events.onOutOfBounds.add((d) => {
-                if(d.body.y > game.height){
-                    d.kill(); 
+                if (d.body.y > game.height) {
+                    d.kill();
                 }
             }, this);
+            drone.fireRate = 0;
         }
 
         // co-pilot feature
         //container = game.add.sprite(70, 580, 'container');
-        coPilot = game.add.image(50,50,'coPilot');
-        coPilot.scale.setTo(0.1,0.1);
-        coPilotText = game.add.text(coPilot.x + coPilot.width, coPilot.y,'Nice work', {fontSize: '18px', fill: '#dbd2d2'});
+        coPilot = game.add.image(50, 50, 'coPilot');
+        coPilot.scale.setTo(0.1, 0.1);
+        coPilotText = game.add.text(coPilot.x + coPilot.width, coPilot.y, 'Nice work', { fontSize: '18px', fill: '#dbd2d2' });
         coPilotText.anchor.set(0);
-        coPilotText
-        
+
         // TODO Add fade in, fade out; cycle through array of quotes
-        
+
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
-        
+
     },
 
 
     update: function () {
         // all items needed during game loop
-        
+        // drones shoot on timer
+        drones.children.forEach(function (drone) {
+            console.log(drone.fireRate);
+            if (game.time.now > drone.fireRate) {
+                window.mainState.droneFire(drone.body.x, drone.body.y);
+                drone.fireRate = game.time.now + 1000;
+            }
+        });
         // Scroll background
         background.tilePosition.y += 0.25;
         midground.tilePosition.y += 0.5;
@@ -183,9 +207,9 @@ var mainState ={
         }
 
         // check if bullets hit enemies
-        game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
+        game.physics.arcade.overlap(lasers, drones, (laser, drone) => {
             laser.kill();
-            drone.kill();    
+            drone.kill();
             //TODO: Increase score
 
         }, null, this);
@@ -203,29 +227,37 @@ var mainState ={
         }
     },
 
-    fire: function(x) {
-        switch(weapon){
+    fire: function (x) {
+        switch (weapon) {
             case 0:
                 if (game.time.now > fireRate) {
 
-                laser = lasers.getFirstExists(false);
+                    laser = lasers.getFirstExists(false);
 
-                if (laser) {
-                    laser.reset(x, player.y + 10);
-                    laser.body.velocity.y = laserSpeed * -1;
-                    laser10.play();
-                    fireRate = game.time.now + 200;
-                    // testing for ScoreKeeper method
-                   // score.increaseScore(1);
-                   // score.displayScore();
+                    if (laser) {
+                        laser.reset(x, player.y + 10);
+                        laser.body.velocity.y = laserSpeed * -1;
+                        laser10.play();
+                        fireRate = game.time.now + 200;
+                        // testing for ScoreKeeper method
+                        // score.increaseScore(1);
+                        // score.displayScore();
+                    }
                 }
-            }
-            break;
+                break;
         }
 
-            
-        }
 
+    },
+
+    droneFire: function (x, y) {
+        droneBullet = droneBullets.getFirstExists(false);
+        if (droneBullet) {
+            droneBullet.reset(x + 60, y + 140);
+            droneBullet.body.velocity.y = droneBulletSpeed;
+            //laser10.play();
+        }
+    }
 };
 
 // game state
