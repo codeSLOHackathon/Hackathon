@@ -3,11 +3,29 @@
     "enemies": [
         {"time": 5, "type": "drone", "position": 400},
         {"time": 7, "type": "drone", "position": 200},
-        {"time": 7.5, "type": "drone", "position": 600}
+        {"time": 7.5, "type": "drone", "position": 600},
+        {"time": 18, "type": "drone","position":300},
+        {"time": 19, "type": "drone","position":700},
+        {"time": 21, "type": "drone","position":100},
+        {"time": 23, "type": "drone","position":500},
+        {"time": 24, "type": "drone","position":600},
+        {"time": 25, "type": "drone","position":700},
+        {"time": 38, "type": "drone","position":800},
+        {"time": 39, "type": "drone","position":300},
+        {"time": 40, "type": "drone","position":900},
+        {"time": 41, "type": "drone","position":500},
+        {"time": 43, "type": "drone","position":900},
+        {"time": 44, "type": "drone","position":400},
+        {"time": 45, "type": "drone","position":800},
+        {"time": 46, "type": "drone","position":200}
+        
     ],
 
     "messages": [
         {"time": 0.5, "text": "Enemy drones detected! Watch out!"},
-        {"time": 11, "text": "Nice work, but it's not over yet."}
+        {"time": 11, "text": "Nice work, but it's not over yet."},
+        {"time":14, "text":"Here they come!"},
+        {"time":30, "text":"Wait... we're still alive? HOLY COW, WE'RE STILL ALIVE!"},
+        {"time":34, "text":"Wait! There's one more wave. Do some of that pilot stuff!"}
     ]
 }
