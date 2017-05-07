@@ -148,7 +148,7 @@ var mainState = {
         // drones shoot on timer
         drones.children.forEach(function (drone) {
 
-            if (drone.body) {
+            if (drone.alive) {
                 if (game.time.now > drone.fireRate) {
                     window.mainState.droneFire(drone.body.x, drone.body.y);
                     drone.fireRate = game.time.now + droneFireRate;
@@ -182,7 +182,7 @@ var mainState = {
         fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         // enable shooting
-        if (fireButton.isDown) {
+        if (fireButton.isDown && player.alive) {
                 this.fire(player.x);
             
         }
