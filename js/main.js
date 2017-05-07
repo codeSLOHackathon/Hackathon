@@ -42,6 +42,7 @@ var mainState ={
 
         //add sound effects
         laser10 = game.add.audio('laser10');
+        explode1 = game.add.audio('explode1');
 
         // controls
         cursors = game.input.keyboard.createCursorKeys();
@@ -78,7 +79,7 @@ var mainState ={
         coPilotGroup = game.add.group();
         coPilot = game.add.image(200, 200, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
-        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, coPilotQuote, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        
         coPilotGroup.add(coPilot);
         coPilotGroup.add(coPilotFrame);
         coPilotGroup.add(coPilotText);
@@ -87,6 +88,8 @@ var mainState ={
         coPilotText.anchor.set(0);
         coPilotGroup.alpha = 0.8;
         coPilotGroup.visible = false;
+
+        
         // TODO Add fade in, fade out; cycle through array of quotes
         
         // pause functionality
@@ -108,7 +111,7 @@ var mainState ={
         explosions.setAll('anchor.x', 0.5);
         explosions.setAll('anchor.y', 0.5);
         explosions.forEach(function(explosion) {
-            explosion.animations.add('explosion');
+        explosion.animations.add('explosion');
         });
     
     },
@@ -151,6 +154,7 @@ var mainState ={
         // check if bullets hit enemies
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
+            this.coPilotMessage("Help");
             laser.kill();
             drone.kill();    
             //TODO: Increase score
@@ -166,6 +170,15 @@ var mainState ={
         explosion.reset(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
         explosion.alpha = 0.7;
         explosion.play('explosion', 30, false, true);
+        explode1.play();
+    },
+
+    coPilotMessage: function(message){
+        coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, message, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        coPilotGroup.visible = True;
+        game.time.events.add(Phaser.Timer.SECOND * 3, function(){
+            coPilotGroup.visible = False}
+            , this);
     },
 
     pauseHandler: function () {

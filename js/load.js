@@ -55,6 +55,8 @@ var loadState = {
         game.load.audio('warpDrive1', 'Assets/soundFx/WarpDrive_01.wav');
         game.load.audio('warpDrive2', 'Assets/soundFx/WarpDrive_02.wav');
 
+        game.load.audio('explode1', 'Assets/soundFx/Explosion1.wav');
+
     // game.load.script('Orbitron','https://fonts.googleapis.com/css?family=Orbitron');
         game.load.spritesheet('explosion', 'Assets/Effects/explosion-01.png', 64, 64, 14);
         
