@@ -226,12 +226,25 @@ var mainState = {
     },
 
     loadLevel: function(levelData) {
+        game.time.events.add(Phaser.Timer.SECOND * levelData.leveltime, this.win, this);
         levelData.enemies.forEach((e)=>{
             game.time.events.add(Phaser.Timer.SECOND * e.time, this.addDrone, this, e.position);
         });
         levelData.messages.forEach((e)=>{
             game.time.events.add(Phaser.Timer.SECOND * e.time, this.coPilotMessage, this, e.text);
         });
+    },
+
+    win: function() {
+        if(player.alive) {
+            if(score.getScore() > 0){
+                this.coPilotMessage("You Won!!! Congratulations! Press ENTER to play again");
+            } else {
+                this.coPilotMessage("You let them all get away? That's terrible. Press ENTER to try again.");
+            }
+            var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            enterKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
+        }
     },
 
     addDrone: function(position) {
@@ -247,6 +260,7 @@ var mainState = {
         drone.events.onOutOfBounds.add((d) => {
             if (d.body.y > game.height) {
                 d.kill();
+                console.log('is it working');
             }
         }, this);
         drone.fireRate = 0;
