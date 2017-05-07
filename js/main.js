@@ -6,7 +6,6 @@ var score = new ScoreKeeper();
 var background;
 var midground;
 var scoreText;
-var healthText;
 var player;
 var cursors;
 
@@ -223,8 +222,6 @@ var mainState = {
             var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
             escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
         }, null, this)
-
-        healthText.text = 'health: ' + player.health;
 
     },
 
