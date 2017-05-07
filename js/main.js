@@ -47,6 +47,7 @@ var mainState = {
         player.health = 3;
 
         //add sound effects
+        laser9 = game.add.audio('laser9');
         laser10 = game.add.audio('laser10');
         explode1 = game.add.audio('explode1');
 
@@ -121,9 +122,7 @@ var mainState = {
         game.onBlur.add(this.pauseHandler, this);
         pauseText.visible = false;
 
-
-        healthText = game.add.text(1000, 16, 'health: 3, ', { fontSize: '32px', fill: '#F50' });
-        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
+        scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
         //  An explosion pool
         explosions = game.add.group();
@@ -144,9 +143,11 @@ var mainState = {
         // drones shoot on timer
         drones.children.forEach(function (drone) {
             console.log(drone.fireRate);
-            if (game.time.now > drone.fireRate) {
-                window.mainState.droneFire(drone.body.x, drone.body.y);
-                drone.fireRate = game.time.now + 1000;
+            if (drone.body) {
+                if (game.time.now > drone.fireRate) {
+                    window.mainState.droneFire(drone.body.x, drone.body.y);
+                    drone.fireRate = game.time.now + 1000;
+                }
             }
         });
         // Scroll background
@@ -187,6 +188,9 @@ var mainState = {
             this.coPilotMessage("Nice shot!");
             laser.kill();
             drone.kill();
+            drone.body = false;
+            score.increaseScore(10);
+            score.displayScore();
             //TODO: Increase score
 
         }, null, this);
@@ -259,7 +263,7 @@ var mainState = {
         if (droneBullet) {
             droneBullet.reset(x + 60, y + 140);
             droneBullet.body.velocity.y = droneBulletSpeed;
-            //laser10.play();
+            laser9.play();
         }
     }
 };
