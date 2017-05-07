@@ -14,12 +14,13 @@ var pauseText;
 var laser;
 var laserSpeed = 300;
 var fireRate = 0;
+var coPilotGroup;
 var coPilot;
 var coPilotFrame;
 var coPilotText;
 var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
-
+var explosions;
 var drones;
 
 var mainState ={
@@ -133,17 +134,18 @@ var mainState ={
         }
 
         // co-pilot feature
-        //container = game.add.sprite(70, 580, 'container');
+        coPilotGroup = game.add.group();
         coPilot = game.add.image(200, 200, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
-        coPilot.alpha = 0.8;
-        coPilotFrame.alpha = 0.8;
         coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, coPilotQuote, {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
+        coPilotGroup.add(coPilot);
+        coPilotGroup.add(coPilotFrame);
+        coPilotGroup.add(coPilotText);
         coPilot.anchor.set(0.5);
         coPilotFrame.anchor.set(0.5);
         coPilotText.anchor.set(0);
-        
-        
+        coPilotGroup.alpha = 0.8;
+        coPilotGroup.visible = false;
         // TODO Add fade in, fade out; cycle through array of quotes
         
         // pause functionality
@@ -156,6 +158,17 @@ var mainState ={
 
         healthText = game.add.text(1000, 16, 'health: 3, ', { fontSize: '32px', fill: '#F50' });
         scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
+
+        //  An explosion pool
+        explosions = game.add.group();
+        explosions.enableBody = true;
+        explosions.physicsBodyType = Phaser.Physics.ARCADE;
+        explosions.createMultiple(30, 'explosion');
+        explosions.setAll('anchor.x', 0.5);
+        explosions.setAll('anchor.y', 0.5);
+        explosions.forEach(function(explosion) {
+            explosion.animations.add('explosion');
+        });
     
     },
 
@@ -196,6 +209,7 @@ var mainState ={
 
         // check if bullets hit enemies
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
+            this.enemyExplosion(drone);
             laser.kill();
             drone.kill();    
             //TODO: Increase score
@@ -204,6 +218,13 @@ var mainState ={
 
         healthText.text = 'health: ' + player.health;
 
+    },
+
+    enemyExplosion: function(enemy){
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+        explosion.alpha = 0.7;
+        explosion.play('explosion', 30, false, true);
     },
 
     pauseHandler: function () {
@@ -238,7 +259,7 @@ var mainState ={
         }
 
             
-        }
+    }
 
 };
 
