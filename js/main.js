@@ -23,6 +23,7 @@ var explosions;
 // variables for drone shooting
 var droneBullets;
 var droneBulletSpeed = 600;
+var droneFireRate = 2000;
 
 var drones;
 var asteroidA;
@@ -152,7 +153,7 @@ var mainState = {
             if (drone.body) {
                 if (game.time.now > drone.fireRate) {
                     window.mainState.droneFire(drone.body.x, drone.body.y);
-                    drone.fireRate = game.time.now + 1000;
+                    drone.fireRate = game.time.now + droneFireRate;
                 }
             }
         });
