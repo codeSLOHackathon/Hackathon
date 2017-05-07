@@ -224,7 +224,6 @@ var mainState = {
             escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
         }, null, this)
 
-        healthText.text = 'health: ' + player.health;
 
     },
 
