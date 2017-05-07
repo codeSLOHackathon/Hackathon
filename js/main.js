@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1200,620, Phaser.AUTO, '');
+var game = new Phaser.Game(1200, 620, Phaser.AUTO, '');
 
 var score = new ScoreKeeper();
 
@@ -11,7 +11,7 @@ var player;
 var cursors;
 var pauseText;
 
-var laser;
+var lasers;
 var laserSpeed = 300;
 var fireRate = 0;
 var coPilotGroup;
@@ -20,14 +20,20 @@ var coPilotFrame;
 var coPilotText;
 var coPilotQuote = 'So, so you think you can tell, heaven from hell, blue skys from pain, can you tell a green field from a cold steel rail? A smile from a veil? Do you think you can tell?';
 var weapon = 0;
+
 var explosions;
+
+// variables for drone shooting
+var droneBullets;
+var droneBulletSpeed = 600;
+
 var drones;
 
-var mainState ={
-    
-    create: function(){
+var mainState = {
+
+    create: function () {
         // all items needed at game creation
-        
+
         // Add background
         background = game.add.tileSprite(0, 0, game.width, game.height, 'starBlu');
         midground = game.add.tileSprite(0, 0, game.width, game.height, 'skyNebula1');
@@ -57,25 +63,41 @@ var mainState ={
         lasers.setAll('checkWorldBounds', true);
         lasers.setAll('outOfBoundsKill', true);
 
+        // add drone bullet
+        droneBullets = game.add.group();
+        droneBullets.enableBody = true;
+        droneBullets.physicsBodyType = Phaser.Physics.ARCADE;
+        droneBullets.createMultiple(50, 'enemyBltDrone');
+        droneBullets.setAll('anchor.x', 0.5);
+        droneBullets.setAll('anchor.y', 1);
+        droneBullets.setAll('checkWorldBounds', true);
+        droneBullets.setAll('outOfBoundsKill', true);
+
         // Enemies
 
         drones = game.add.group();
         drones.enableBody = true;
+        drones.physicsBodyType = Phaser.Physics.ARCADE;
+        drones.setAll('anchor.x', 0.5);
+        drones.setAll('anchor.y', 0.5);
+        //drones.setAll('fireRate',0);
 
-        for (var i = 0; i < 12; i++)
-        {
+        for (var i = 0; i < 12; i++) {
+            var that = this;
             var drone = drones.create((game.stage.width - 150) * Math.random(), -i * 400, 'enemyDrone');
             drone.scale.setTo(0.6, 0.6);
             drone.body.velocity.y = 150;
             drone.checkWorldBounds = true;
             drone.events.onOutOfBounds.add((d) => {
-                if(d.body.y > game.height){
-                    d.kill(); 
+                if (d.body.y > game.height) {
+                    d.kill();
                 }
             }, this);
+            drone.fireRate = 0;
         }
 
         // co-pilot feature
+
         coPilotGroup = game.add.group();
         coPilot = game.add.image(200, 200, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
@@ -119,7 +141,14 @@ var mainState ={
 
     update: function () {
         // all items needed during game loop
-        
+        // drones shoot on timer
+        drones.children.forEach(function (drone) {
+            console.log(drone.fireRate);
+            if (game.time.now > drone.fireRate) {
+                window.mainState.droneFire(drone.body.x, drone.body.y);
+                drone.fireRate = game.time.now + 1000;
+            }
+        });
         // Scroll background
         background.tilePosition.y += 0.25;
         midground.tilePosition.y += 0.5;
@@ -152,11 +181,12 @@ var mainState ={
         }
 
         // check if bullets hit enemies
+
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
             this.coPilotMessage("Nice shot!");
             laser.kill();
-            drone.kill();    
+            drone.kill();
             //TODO: Increase score
 
         }, null, this);
@@ -202,29 +232,36 @@ var mainState ={
         }
     },
 
-    fire: function(x) {
-        switch(weapon){
+    fire: function (x) {
+        switch (weapon) {
             case 0:
                 if (game.time.now > fireRate) {
 
-                laser = lasers.getFirstExists(false);
+                    laser = lasers.getFirstExists(false);
 
-                if (laser) {
-                    laser.reset(x, player.y + 10);
-                    laser.body.velocity.y = laserSpeed * -1;
-                    laser10.play();
-                    fireRate = game.time.now + 200;
-                    // testing for ScoreKeeper method
-                   // score.increaseScore(1);
-                   // score.displayScore();
+                    if (laser) {
+                        laser.reset(x, player.y + 10);
+                        laser.body.velocity.y = laserSpeed * -1;
+                        laser10.play();
+                        fireRate = game.time.now + 200;
+                        // testing for ScoreKeeper method
+                        // score.increaseScore(1);
+                        // score.displayScore();
+                    }
                 }
-            }
-            break;
+                break;
         }
 
-            
-    }
+    },
 
+    droneFire: function (x, y) {
+        droneBullet = droneBullets.getFirstExists(false);
+        if (droneBullet) {
+            droneBullet.reset(x + 60, y + 140);
+            droneBullet.body.velocity.y = droneBulletSpeed;
+            //laser10.play();
+        }
+    }
 };
 
 // game state
