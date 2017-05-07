@@ -59,6 +59,8 @@ var loadState = {
 
         game.load.audio('explode1', 'Assets/soundFx/Explosion1.wav');
 
+        game.load.json('levelData', 'Assets/level.json');
+
     // game.load.script('Orbitron','https://fonts.googleapis.com/css?family=Orbitron');
         game.load.spritesheet('explosion', 'Assets/Effects/explosion-01.png', 64, 64, 14);
         

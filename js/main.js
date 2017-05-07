@@ -8,6 +8,7 @@ var midground;
 var scoreText;
 var player;
 var cursors;
+var playerSpeed = 400;
 
 var lasers;
 var laserSpeed = 300;
@@ -26,7 +27,7 @@ var droneBulletSpeed = 600;
 var droneFireRate = 2000;
 
 var drones;
-var asteroidA;
+
 
 var mainState = {
 
@@ -83,28 +84,19 @@ var mainState = {
         drones.setAll('outOfBoundsKill', true);
         //drones.setAll('fireRate',0);
 
-        for (var i = 0; i < 12; i++) {
-            var that = this;
-            var drone = drones.create((game.stage.width - 150) * Math.random(), -i * 400, 'enemyDrone');
-            drone.scale.setTo(0.6, 0.6);
-            drone.body.velocity.y = 150;
-            drone.checkWorldBounds = true;
-            drone.events.onOutOfBounds.add((d) => {
-                if (d.body.y > game.height) {
-                    d.kill();
-                }
-            }, this);
-            drone.fireRate = 0;
-        }
-
-        // asteroids
-        asteroidA = game.add.sprite(100, -100, 'asteroidA');
-        asteroidA.scale.setTo(0.3, 0.3);
-        game.physics.arcade.enable(asteroidA);
-        asteroidA.body.collideWorldBounds = true;
-        asteroidA.anchor.set(0.5, 0.0);
-        asteroidA.health = 3;
-        asteroidA.body.velocity.y = 100;
+        // for (var i = 0; i < 12; i++) {
+        //     var that = this;
+        //     var drone = drones.create((game.stage.width - 150) * Math.random(), -i * 400, 'enemyDrone');
+        //     drone.scale.setTo(0.6, 0.6);
+        //     drone.body.velocity.y = 150;
+        //     drone.checkWorldBounds = true;
+        //     drone.events.onOutOfBounds.add((d) => {
+        //         if (d.body.y > game.height) {
+        //             d.kill();
+        //         }
+        //     }, this);
+        //     drone.fireRate = 0;
+        // }
 
 
         // co-pilot feature
@@ -139,9 +131,14 @@ var mainState = {
         explosions.createMultiple(30, 'explosion');
         explosions.setAll('anchor.x', 0.5);
         explosions.setAll('anchor.y', 0.5);
-        explosions.forEach(function (explosion) {
+
+        explosions.forEach(function(explosion) {
             explosion.animations.add('explosion');
         });
+    
+        // load the level
+        this.loadLevel(game.cache.getJSON('levelData'));
+    
 
     },
 
@@ -168,17 +165,17 @@ var mainState = {
         // player movement controls
         if (cursors.left.isDown) {
             //  Move to the left
-            player.body.velocity.x = -300;
+            player.body.velocity.x = -1 * playerSpeed;
         } else if (cursors.right.isDown) {
             //  Move to the right
-            player.body.velocity.x = 300;
+            player.body.velocity.x = playerSpeed;
         }
         if (cursors.up.isDown) {
             //  Move up   
-            player.body.velocity.y = -150;
+            player.body.velocity.y = -1 * playerSpeed;
         } else if (cursors.down.isDown) {
             //  Move down
-            player.body.velocity.y = 150;
+            player.body.velocity.y = playerSpeed;
         }
 
         // add fire button
@@ -194,7 +191,6 @@ var mainState = {
 
         game.physics.arcade.overlap(lasers, drones, (laser, drone) => {
             this.enemyExplosion(drone);
-            this.coPilotMessage("Nice shot!");
             laser.kill();
             drone.kill();
             drone.body = false;
@@ -226,6 +222,34 @@ var mainState = {
             escapeKey.onDown.addOnce(() => { game.state.start('lose') }, this);
         }, null, this)
 
+
+    },
+
+    loadLevel: function(levelData) {
+        levelData.enemies.forEach((e)=>{
+            game.time.events.add(Phaser.Timer.SECOND * e.time, this.addDrone, this, e.position);
+        });
+        levelData.messages.forEach((e)=>{
+            game.time.events.add(Phaser.Timer.SECOND * e.time, this.coPilotMessage, this, e.text);
+        });
+    },
+
+    addDrone: function(position) {
+
+        if(position === 'random' || position === undefined){
+            postion = (game.stage.width - 150) * Math.random();
+        }
+        
+        var drone = drones.create(position, -100, 'enemyDrone');
+        drone.scale.setTo(0.6, 0.6);
+        drone.body.velocity.y = 150;
+        drone.checkWorldBounds = true;
+        drone.events.onOutOfBounds.add((d) => {
+            if (d.body.y > game.height) {
+                d.kill();
+            }
+        }, this);
+        drone.fireRate = 0;
     },
 
     enemyExplosion: function (enemy) {
@@ -246,13 +270,16 @@ var mainState = {
     },
 
     pauseHandler: function () {
-        coPilotText.setText("Game Paused. Press ESC to continue");
-        if (game.paused) {
-            game.paused = false;
-            coPilotGroup.visible = false;
-        } else {
-            game.paused = true;
-            coPilotGroup.visible = true;
+        if(player.alive){
+            coPilotText.setText("Game Paused. Press ESC to continue");
+            if (game.paused) {
+                game.paused = false;
+                coPilotGroup.visible = false;
+            } else {
+                game.paused = true;
+                coPilotGroup.visible = true;
+            }
+
         }
     },
 
