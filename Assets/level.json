@@ -1,5 +1,5 @@
 {
-    "leveltime": 15,
+    "leveltime": 50,
     "enemies": [
         {"time": 5, "type": "drone", "position": 400},
         {"time": 7, "type": "drone", "position": 200},
