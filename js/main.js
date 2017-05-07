@@ -8,6 +8,7 @@ var midground;
 var scoreText;
 var player;
 var cursors;
+var playerSpeed = 400;
 
 var lasers;
 var laserSpeed = 300;
@@ -167,17 +168,17 @@ var mainState = {
         // player movement controls
         if (cursors.left.isDown) {
             //  Move to the left
-            player.body.velocity.x = -300;
+            player.body.velocity.x = -1 * playerSpeed;
         } else if (cursors.right.isDown) {
             //  Move to the right
-            player.body.velocity.x = 300;
+            player.body.velocity.x = playerSpeed;
         }
         if (cursors.up.isDown) {
             //  Move up   
-            player.body.velocity.y = -150;
+            player.body.velocity.y = -1 * playerSpeed;
         } else if (cursors.down.isDown) {
             //  Move down
-            player.body.velocity.y = 150;
+            player.body.velocity.y = playerSpeed;
         }
 
         // add fire button
@@ -192,7 +193,6 @@ var mainState = {
 
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
-            this.coPilotMessage("Nice shot!");
             laser.kill();
             drone.kill();
             drone.body = false;
@@ -223,6 +223,7 @@ var mainState = {
             var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
             escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
         }, null, this)
+
 
     },
 
