@@ -189,7 +189,7 @@ var mainState = {
             this.fire(player.x);
         }
 
-        // check if bullets hit enemies
+        // check if lasers hit enemies
 
         game.physics.arcade.overlap(lasers, drones, (laser, drone)=>{
             this.enemyExplosion(drone);
@@ -202,6 +202,17 @@ var mainState = {
             //TODO: Increase score
 
         }, null, this);
+
+        // check if bullets hit player 
+
+        game.physics.arcade.overlap(droneBullets, player, (droneBullet, player)=>{
+            this.enemyExplosion(player);
+            player.kill();
+            droneBullet.kill();
+            game.time.events.add(500, function(){
+                game.state.start('lose');
+            }, this);
+        }, null, this)
 
         // check if player collides with enemy
         game.physics.arcade.overlap(player, drones, (player, drone)=>{
