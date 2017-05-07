@@ -9,7 +9,6 @@ var scoreText;
 var healthText;
 var player;
 var cursors;
-var pauseText;
 
 var lasers;
 var laserSpeed = 300;
@@ -116,12 +115,10 @@ var mainState = {
         // TODO Add fade in, fade out; cycle through array of quotes
         
         // pause functionality
-        pauseText = game.add.text(230, 150, 'Paused - Press Enter to Resume', { fontSize: '32px', fill: '#5D5' });
-        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         pauseKey.onDown.add(this.pauseHandler, this);
         game.onBlur.add(this.pauseHandler, this);
-        pauseText.visible = false;
-
+      
         scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
         //  An explosion pool
@@ -200,9 +197,10 @@ var mainState = {
             this.enemyExplosion(player);
             player.kill();
             drone.kill();
-            game.time.events.add(500, function(){
-                game.state.start('lose');
-            }, this);
+
+            this.coPilotMessage("GAME OVER. Press Enter to play again");
+            var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
         }, null, this)
 
         healthText.text = 'health: ' + player.health;
@@ -226,13 +224,13 @@ var mainState = {
     },
 
     pauseHandler: function () {
-        console.log(game.paused);
+        coPilotText.setText("Game Paused. Press ESC to continue");
         if (game.paused) {
             game.paused = false;
-            pauseText.visible = false;
+            coPilotGroup.visible = false;
         } else {
             game.paused = true;
-            pauseText.visible = true;
+            coPilotGroup.visible = true;
         }
     },
 
