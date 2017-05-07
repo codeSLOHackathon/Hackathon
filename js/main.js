@@ -109,7 +109,7 @@ var mainState = {
         // co-pilot feature
 
         coPilotGroup = game.add.group();
-        coPilot = game.add.image(200, 200, 'coPilot');
+        coPilot = game.add.image(200, 250, 'coPilot');
         coPilotFrame = game.add.image(coPilot.x, coPilot.y,'coPilotFrame');
         coPilotText = game.add.text(coPilot.x + coPilot.width/2 + 50, coPilot.y - coPilot.height/2, "Test", {fontSize: '24px', wordWrap: true, wordWrapWidth: 300, fill: '#dbd2d2'});
         coPilotGroup.add(coPilot);
@@ -120,7 +120,6 @@ var mainState = {
         coPilotText.anchor.set(0);
         coPilotGroup.alpha = 0.8;
         coPilotGroup.visible = false;
-        coPilotGroup.scale.setTo(0.5,0.5);
 
         
         // TODO Add fade in, fade out; cycle through array of quotes
@@ -209,9 +208,9 @@ var mainState = {
             this.enemyExplosion(player);
             player.kill();
             droneBullet.kill();
-            game.time.events.add(500, function(){
-                game.state.start('lose');
-            }, this);
+            this.coPilotMessage("GAME OVER. Press Enter to play again");
+            var escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            escapeKey.onDown.addOnce(()=>{game.state.start('lose')}, this);
         }, null, this)
 
         // check if player collides with enemy
